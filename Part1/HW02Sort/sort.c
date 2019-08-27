@@ -48,7 +48,7 @@ void ssort(int * arr, int size)
      arr [record] = swap;
   } 
  
-    
+}    
     
   // This function has two levels of for
   // The first level specifies which element in the array

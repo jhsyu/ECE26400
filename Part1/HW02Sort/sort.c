@@ -23,7 +23,7 @@ bool checkOrder(int * arr, int size)
   return true;
 }
 
-// Need modify, this version cannnot determine 14 and 140 which is greater.
+// logical error fixed. 
 // YOU MUST MODIFY THIS FUNCTION
 #ifdef TEST_SORT
 void ssort(int * arr, int size)
@@ -35,14 +35,13 @@ void ssort(int * arr, int size)
   {
     
     //the numbers before count_2 have been sorted. 
-
+    temp_min = arr [count_2];
+    record = count_2; 
     for ( int count_1 = count_2; count_1 < size; count_1 ++)
- 
     //initial the miminal value to the first element after the sorted element. 
-    //if count_1 is less than size, continue sorting. 
- 
-    {
-     temp_min = arr[count_2]; 
+    //if count_1 is less than size, continue sorting.
+    //this for body is to find the minimum in the remaining part of the arrey. 
+    { 
      if (temp_min >  arr [count_1]) 
                  /*compare the value of temp_min and the element*/
       { 
@@ -51,9 +50,9 @@ void ssort(int * arr, int size)
                  /* record the minimum's position in the array. */
       }
     }
-     swap =  arr [count_2];         
-     arr [count_2] = temp_min; 
-     arr [record] = swap;
+     swap = arr [count_2];
+     arr [count_2] = arr [record];
+     arr [record] = swap; 
     //switch the position between the first element and the minimum
     // in part of array unsorted. 
    

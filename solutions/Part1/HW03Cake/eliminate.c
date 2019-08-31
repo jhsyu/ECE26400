@@ -2,10 +2,39 @@
 // *** You MUST modify this file
 // ***
 
+
+//This is the calrifcation for the testcases.
+//In the testcase1, n = 6, k = 3, the last element printed
+//is the element who gets the cake.
+//the output1 should be 2 5 3 1 4 0
+
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h> 
-#include <string.h> 
+#include <string.h>
+
+
+//because the number they count will never less than 1,
+//define 0 as the people leave in this trun,
+//define -1 as the people leave in the last turn.
+int const X = 0; 
+int const Y = -1; 
+
+//this function return a number showing how many people are still alive.
+int check_remain(int* arr, int size);    
+{
+  int remain = size;
+  int dead = 0;   //count the dead people.
+  for (int ind = 0; ind < size, ind ++)
+    {
+      if (arr[ind] == X || arr[ind] == Y)
+	dead ++;
+    }
+  remain = remain - dead; 
+  return remain;
+}
+
 
 #ifdef TEST_ELIMINATE
 // 100% of the score

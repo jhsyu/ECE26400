@@ -54,8 +54,7 @@ void eliminate(int n, int k)    /* n people, n is the size of the array. */
     {
       arr[i] = i + 1;
     }
-
-
+  
   // counting to k,
   // mark the eliminated element
   // print the index of the marked element
@@ -72,7 +71,7 @@ void eliminate(int n, int k)    /* n people, n is the size of the array. */
       //case 2: if one's count equal to k, he dies, print his number, marked as X.
       else if (count == k) {
         arr[i] = X;
-        printf("%d\n", arr[i]);
+        printf("%d\n",i);
         count = 1;       /* initialize the count value. */
       }
       //case 3: if one is alive and his count is not equal to k, go to next one.

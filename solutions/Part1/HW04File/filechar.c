@@ -32,14 +32,14 @@ bool countChar(char * filename, int * counts, int size)
   if (fptr == NULL)
     return false;
   int onechar;
-  while (fgetc(fptr) != EOF)
-    {
+  do {
       onechar = fgetc(fptr);
       if ((onechar >= 0) && (onechar <= (size - 1)))
 	{
 	  counts[onechar] ++;
 	}
-    }
+  } while (onechar != EOF);
+  
   fclose(fptr);
   fptr = NULL;
   
@@ -61,7 +61,7 @@ void printCounts(int * counts, int size)
     {
       if(counts[ind] != 0)
 	{
-	  if(((ind  > 'a') && (ind < 'z')) || ((ind > 'A') && (ind < 'Z')))
+	  if(((ind  >= 'a') && (ind <= 'z')) || ((ind >= 'A') && (ind <= 'Z')))
 	    {
 	      printf("%d, %c, %d\n", ind, ind, counts[ind]);
 	    }

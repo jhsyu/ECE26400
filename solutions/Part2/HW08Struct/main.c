@@ -2,18 +2,21 @@
 // *** You must modify this file
 // ***
 
-#include <stdio.h>  
-#include <stdlib.h> 
-#include <string.h> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include "hw08.h"
 
 #ifdef TEST_MAIN
 int main(int argc, char * * argv)
 {
+  if (argc != 3) {
+    return EXIT_FAILURE;
+  }
+  
   // argv[1]: name of input file (binary)
   // argv[2]: name of output file (binary)
-
   // check whether there are three arguments.
   // If not, return EXIT_FAILURE. DO NOT print anything
 
@@ -29,20 +32,20 @@ int main(int argc, char * * argv)
 
 #ifdef DEBUG
   printVector(vecArr, numElem);
-#endif  
+#endif
 
-  
+
   // call qsort to sort the vectors, use argv[3] to determine which
   // attribute to sort
 
 #ifdef DEBUG
   printf("\n");
   printVector(vecArr, numElem);
-#endif  
+#endif
 
   // write the sorted array to the file whose name is argv[2]
   // if writing fails, release memory and return EXIT_FAILURE
-  
+
 
   // releave memory, return EXIT_SUCCESS
 }

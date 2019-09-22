@@ -32,34 +32,34 @@ test1: hw08
 test2: hw08
 	./hw08 inputs/input2.bin output2.bin x
 	diff output2.bin expected/expected2.bin
-	./hw08 inputs/input2.bin output2.bin y
-	diff output2.bin expected/expected2.bin
-	./hw08 inputs/input2.bin output2.bin z
-	diff output2.bin expected/expected2.bin
+#	./hw08 inputs/input2.bin output2.bin y
+#	diff output2.bin expected/expected2.bin
+#	./hw08 inputs/input2.bin output2.bin z
+#	diff output2.bin expected/expected2.bin
 
 test3: hw08
 	./hw08 inputs/input3.bin output3.bin x
 	diff output3.bin expected/expected3.bin
-	./hw08 inputs/input3.bin output3.bin y
-	diff output3.bin expected/expected3.bin
-	./hw08 inputs/input3.bin output3.bin z
-	diff output3.bin expected/expected3.bin
+#	./hw08 inputs/input3.bin output3.bin y
+#	diff output3.bin expected/expected3.bin
+#	./hw08 inputs/input3.bin output3.bin z
+#	diff output3.bin expected/expected3.bin
 
 test4: hw08
 	./hw08 inputs/input4.bin output4.bin x
 	diff output4.bin expected/expected4.bin
-	./hw08 inputs/input4.bin output4.bin y
-	diff output4.bin expected/expected4.bin
-	./hw08 inputs/input4.bin output4.bin z
-	diff output4.bin expected/expected4.bin
+#	./hw08 inputs/input4.bin output4.bin y
+#	diff output4.bin expected/expected4.bin
+#	./hw08 inputs/input4.bin output4.bin z
+#	diff output4.bin expected/expected4.bin
 
 test5: hw08
 	./hw08 inputs/input5.bin output5.bin x
 	diff output5.bin expected/expected5.bin
-	./hw08 inputs/input5.bin output5.bin y
-	diff output5.bin expected/expected5.bin
-	./hw08 inputs/input5.bin output5.bin z
-	diff output5.bin expected/expected5.bin
+#	./hw08 inputs/input5.bin output5.bin y
+#	diff output5.bin expected/expected5.bin
+#	./hw08 inputs/input5.bin output5.bin z
+#	diff output5.bin expected/expected5.bin
 
 
 clean:

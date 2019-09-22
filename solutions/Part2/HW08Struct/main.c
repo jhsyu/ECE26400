@@ -28,9 +28,12 @@ int main(int argc, char * * argv)
   // otherwise, allocate memory for an array of vectors
   Vector * vecArr = malloc(numElem * sizeof(Vector));
 
-  #ifdef READ_BIN
-    readVector(argv[1], vecArr, numElem);
-    printVector(vecArr, numElem);
+
+
+  #ifdef TEST_READ_BIN
+  printf("\n");
+  readVector(argv[1], vecArr, numElem);
+  printVector(vecArr, numElem);
   #endif
 
   if (vecArr == NULL) {
@@ -73,11 +76,21 @@ int main(int argc, char * * argv)
   // write the sorted array to the file whose name is argv[2]
   // if writing fails, release memory and return EXIT_FAILURE
   rtv = writeVector(argv[2], vecArr, numElem);
+
+  #ifdef TEST_WRITE_BIN
+  printf("\n");
+  readVector(argv[2], vecArr, numElem);
+  printVector(vecArr, numElem);
+  #endif
+
   if (rtv != true) {
     free(vecArr);
     return EXIT_FAILURE;
   }
   free(vecArr);
+
+
+
   return EXIT_SUCCESS;
 
   // releave memory, return EXIT_SUCCESS

@@ -5,7 +5,7 @@ ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
 
-TESTFALGS = -DTEST_COUNTVECTOR -DTEST_READVECTOR -DTEST_COMPAREVECTOR -DTEST_WRITEVECTOR -DTEST_MAIN -DDEBUG #-DTEST_READ_BIN -DTEST_WRITE_BIN
+TESTFALGS = -DTEST_COUNTVECTOR -DTEST_READVECTOR -DTEST_COMPAREVECTOR -DTEST_WRITEVECTOR -DTEST_MAIN #-DDEBUG -DREAD_EXPECTED1 #-DTEST_READ_BIN -DTEST_WRITE_BIN
 
 SRCS = main.c hw08.c
 OBJS = $(SRCS:%.c=%.o)
@@ -22,15 +22,15 @@ testmemory: hw08
 testall: test1 test2 test3 test4 test5
 
 test1: hw08
-	./hw08 inputs/input1.bin output1.bin
-	diff output1.bin expected/expected1.bin
+	./hw08 ./inputs/test1.bin ./output1.bin
+	diff output1.bin ./expected/expected1.bin
 #	./hw08 inputs/input1.bin output1.bin
 #	diff output1.bin expected/expected1.bin
 #	./hw08 inputs/input1.bin output1.bin
 #	diff output1.bin expected/expected1.bin
 
 test2: hw08
-	./hw08 inputs/input2.bin output2.bin x
+	./hw08 inputs/input2.bin output2.bin #x
 	diff output2.bin expected/expected2.bin
 #	./hw08 inputs/input2.bin output2.bin y
 #	diff output2.bin expected/expected2.bin
@@ -38,7 +38,7 @@ test2: hw08
 #	diff output2.bin expected/expected2.bin
 
 test3: hw08
-	./hw08 inputs/input3.bin output3.bin x
+	./hw08 inputs/input3.bin output3.bin #x
 	diff output3.bin expected/expected3.bin
 #	./hw08 inputs/input3.bin output3.bin y
 #	diff output3.bin expected/expected3.bin
@@ -46,7 +46,7 @@ test3: hw08
 #	diff output3.bin expected/expected3.bin
 
 test4: hw08
-	./hw08 inputs/input4.bin output4.bin x
+	./hw08 inputs/input4.bin output4.bin #x
 	diff output4.bin expected/expected4.bin
 #	./hw08 inputs/input4.bin output4.bin y
 #	diff output4.bin expected/expected4.bin
@@ -54,7 +54,7 @@ test4: hw08
 #	diff output4.bin expected/expected4.bin
 
 test5: hw08
-	./hw08 inputs/input5.bin output5.bin x
+	./hw08 inputs/input5.bin output5.bin #x
 	diff output5.bin expected/expected5.bin
 #	./hw08 inputs/input5.bin output5.bin y
 #	diff output5.bin expected/expected5.bin

@@ -77,11 +77,17 @@ int main(int argc, char * * argv)
   // if writing fails, release memory and return EXIT_FAILURE
   rtv = writeVector(argv[2], vecArr, numElem);
 
-  #ifdef TEST_WRITE_BIN
+#ifdef TEST_WRITE_BIN
   printf("\n");
   readVector(argv[2], vecArr, numElem);
   printVector(vecArr, numElem);
-  #endif
+#endif
+
+#ifdef  READ_EXPECTED1
+  printf("\n");
+  readVector("./expected/expected1.bin", vecArr, 10);
+  printVector(vecArr, 10);
+#endif
 
   if (rtv != true) {
     free(vecArr);

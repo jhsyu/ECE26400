@@ -27,6 +27,12 @@ int main(int argc, char * * argv)
   }
   // otherwise, allocate memory for an array of vectors
   Vector * vecArr = malloc(numElem * sizeof(Vector));
+
+  #ifdef READ_BIN
+    readVector(argv[1], vecArr, numElem);
+    printVector(vecArr, numElem);
+  #endif
+
   if (vecArr == NULL) {
     return false;
   }
@@ -39,6 +45,7 @@ int main(int argc, char * * argv)
   }
 
 #ifdef DEBUG
+  printf("\n");
   printVector(vecArr, numElem);
 #endif
 

@@ -21,7 +21,7 @@ int countVector(char * filename)
     return -1;
   } //fopen fails.
   int count = 0;
-  struct buffer [];
+  Vector buffer [1000];
   while (fread(buffer, sizeof(buffer), 1, fptr)) {
     count ++;
   }
@@ -61,8 +61,8 @@ bool readVector(char* filename, Vector * vecArr, int size)
 #ifdef TEST_COMPAREVECTOR
 int compareVector(const void *p1, const void *p2)
 {
-  struct arg1 = *(const struct *) p1;
-  struct arg2 = *(const struct *) p2;
+  Vector arg1 = *(const Vector *) p1;
+  Vector arg2 = *(const Vector *) p2;
 
   // compare the x attribute first
   // If the first vector's x is less than the second vector's x

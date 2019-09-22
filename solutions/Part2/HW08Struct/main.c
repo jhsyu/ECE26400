@@ -15,7 +15,7 @@ int main(int argc, char * * argv)
   // argv[2]: name of output file (binary)
   // check whether there are three arguments.
   // If not, return EXIT_FAILURE. DO NOT print anything
-  if (argc != 4) {
+  if (argc != 3) {
     return EXIT_FAILURE;
   }
 
@@ -44,7 +44,8 @@ int main(int argc, char * * argv)
 
   // call qsort to sort the vectors, use argv[3] to determine which
   // attribute to sort
-  if ((strcmp(argv[3], "x"))) {
+  qsort(vecArr, numElem, sizeof(vecArr[0]), compareVector);
+  /*if ((strcmp(argv[3], "x"))) {
     qsort(vecArr, numElem, sizeof(Vector), compareVector);
   }
   else if ((strcmp(argv[3], "y"))) {
@@ -56,7 +57,7 @@ int main(int argc, char * * argv)
   else {
     printf("The attribute can be ONLY x, y, or z!\n");
     return EXIT_FAILURE;
-  }
+  }*/
 #ifdef DEBUG
   printf("\n");
   printVector(vecArr, numElem);
@@ -64,7 +65,8 @@ int main(int argc, char * * argv)
 
   // write the sorted array to the file whose name is argv[2]
   // if writing fails, release memory and return EXIT_FAILURE
-  if (writeVector(argv[2], vecArr, numElem)) {
+  rtv = writeVector(argv[2], vecArr, numElem);
+  if (rtv != true) {
     free(vecArr);
     return EXIT_FAILURE;
   }

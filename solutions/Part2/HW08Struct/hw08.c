@@ -21,8 +21,11 @@ int countVector(char * filename)
     return -1;
   } //fopen fails.
   int count = 0;
-  Vector buffer [1000];
-  while (fread(buffer, sizeof(buffer), 1, fptr)) {
+  Vector * buffer = malloc(sizeof(Vector));
+  if (buffer == NULL) {
+    return -1;
+  }
+  while (fread(buffer, sizeof(Vector), 1, fptr)) {
     count ++;
   }
   fclose(fptr);
@@ -70,36 +73,26 @@ int compareVector(const void *p1, const void *p2)
   // If the first vector's x is greater than the second vector's x
   // return 1
   // If the two vectors' x is the same, compare the y attribute
-  if (arg1.x < arg2.x) {
-    return -1;
+  if (arg1.x != arg2.x) {
+    return arg1.x > arg2.x ? 1:-1;
   }
-  if (arg1.x > arg2.x) {
-    return 1;
-  }
-
   // If the first vector's y is less than the second vector's y
   // return -1
   // If the first vector's y is greater than the second vector's y
   // return 1
   // If the two vectors' y is the same, compare the z attribute
-  if (arg1.y < arg2.y) {
-    return -1;
-  }
-  if (arg1.y > arg2.y) {
-    return 1;
+  else if ((arg1.x == arg2.x)&&(arg1.y != arg2.y)) {
+    return arg1.y > arg2.y ? 1:-1;
   }
   // If the first vector's z is less than the second vector's z
   // return -1
   // If the first vector's z is greater than the second vector's z
   // return 1
   // If the two vectors' x, y, z are the same (pairwise), return 0
-  if (arg1.z < arg2.z) {
-    return -1;
+  else if ((arg1.x == arg2.x)&&(arg1.y == arg2.y)&&(arg1.z != arg2.z)) {
+    return arg1.z > arg2.z ? 1:-1;
   }
-  if (arg1.z > arg2.z) {
-    return 1;
-  }
-  return 0;
+  else return 0;
 }
 #endif
 

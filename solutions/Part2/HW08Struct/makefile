@@ -5,18 +5,13 @@ ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
 
-TESTFALGS = -DTEST_COUNTVECTOR -DTEST_READVECTOR -DTEST_COMPAREVECTOR -DTEST_WRITEVECTOR -DTEST_MAIN -DDBUG
+TESTFALGS = -DTEST_COUNTVECTOR -DTEST_READVECTOR -DTEST_COMPAREVECTOR -DTEST_WRITEVECTOR -DTEST_MAIN -DDEBUG
 
 SRCS = main.c hw08.c
 OBJS = $(SRCS:%.c=%.o)
-TSTS = testgen.c hwo8.c
-TSTO = $(SRCS:%.c=%.o)
 
 hw08: $(OBJS)
 	$(GCC) $(TESTFALGS) $(OBJS) -o hw08
-
-#testgen: $(TSTO)
-#	$(GCC) $(TESTFALGS) $(TSTO) -o testgen
 
 .c.o:
 		$(GCC) $(TESTFALGS) -c $*.c
@@ -27,12 +22,12 @@ testmemory: hw08
 testall: test1 test2 test3 test4 test5
 
 test1: hw08
-	./hw08 inputs/input1.bin output1.bin x
+	./hw08 inputs/input1.bin output1.bin
 	diff output1.bin expected/expected1.bin
-	./hw08 inputs/input1.bin output1.bin y
-	diff output1.bin expected/expected1.bin
-	./hw08 inputs/input1.bin output1.bin z
-	diff output1.bin expected/expected1.bin
+#	./hw08 inputs/input1.bin output1.bin
+#	diff output1.bin expected/expected1.bin
+#	./hw08 inputs/input1.bin output1.bin
+#	diff output1.bin expected/expected1.bin
 
 test2: hw08
 	./hw08 inputs/input2.bin output2.bin x

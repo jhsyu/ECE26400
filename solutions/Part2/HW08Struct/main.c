@@ -26,9 +26,9 @@ int main(int argc, char * * argv)
     return EXIT_FAILURE;
   }
   // otherwise, allocate memory for an array of vectors
+
+  
   Vector * vecArr = malloc(numElem * sizeof(Vector));
-
-
 
   #ifdef TEST_READ_BIN
   printf("\n");

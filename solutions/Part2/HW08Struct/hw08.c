@@ -109,7 +109,7 @@ bool writeVector(char* filename, Vector * vecArr, int size)
   if (fptr ==NULL) {
     return false;
   }
-  int numElem = fwrite(vecArr, sizeof(vecArr), size, fptr);
+  int numElem = fwrite(vecArr, sizeof(Vector), size, fptr);
   if (numElem != size) {
     fclose(fptr);
     return false;

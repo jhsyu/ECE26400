@@ -28,6 +28,7 @@ int countVector(char * filename)
   while (fread(buffer, sizeof(Vector), 1, fptr)) {
     count ++;
   }
+  free(buffer);
   fclose(fptr);
   return count;
 }
@@ -55,7 +56,8 @@ bool readVector(char* filename, Vector * vecArr, int size)
     return false;
   } //check the number of elements.
 
-  fread(vecArr, sizeof(vecArr), size, fptr);
+  int read = 0;
+  read = fread(vecArr, sizeof(vecArr[0]), size, fptr);
   fclose(fptr);
   return true;
 }

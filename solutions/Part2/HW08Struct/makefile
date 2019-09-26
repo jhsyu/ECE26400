@@ -24,42 +24,22 @@ testall: test1 test2 test3 test4 test5
 test1: hw08
 	./hw08 inputs/test1.bin output1.bin
 	cmp output1.bin ./expected/expected1.bin
-#	./hw08 inputs/test1.bin output1.bin
-#	cmp output1.bin expected/expected1.bin
-#	./hw08 inputs/test1.bin output1.bin
-#	cmp output1.bin expected/expected1.bin
 
 test2: hw08
-	./hw08 inputs/test2.bin output2.bin #x
+	./hw08 inputs/test2.bin output2.bin
 	cmp output2.bin expected/expected2.bin
-#	./hw08 inputs/test2.bin output2.bin y
-#	cmp output2.bin expected/expected2.bin
-#	./hw08 inputs/test2.bin output2.bin z
-#	cmp output2.bin expected/expected2.bin
 
 test3: hw08
-	./hw08 inputs/test3.bin output3.bin #x
+	./hw08 inputs/test3.bin output3.bin
 	cmp output3.bin expected/expected3.bin
-#	./hw08 inputs/test3.bin output3.bin y
-#	cmp output3.bin expected/expected3.bin
-#	./hw08 inputs/test3.bin output3.bin z
-#	cmp output3.bin expected/expected3.bin
 
 test4: hw08
-	./hw08 inputs/test4.bin output4.bin #x
+	./hw08 inputs/test4.bin output4.bin
 	cmp output4.bin expected/expected4.bin
-#	./hw08 inputs/test4.bin output4.bin y
-#	cmp output4.bin expected/expected4.bin
-#	./hw08 inputs/test4.bin output4.bin z
-#	cmp output4.bin expected/expected4.bin
 
 test5: hw08
-	./hw08 inputs/test5.bin output5.bin #x
+	./hw08 inputs/test5.bin output5.bin
 	cmp output5.bin expected/expected5.bin
-#	./hw08 inputs/test5.bin output5.bin y
-#	cmp output5.bin expected/expected5.bin
-#	./hw08 inputs/test5.bin output5.bin z
-#	cmp output5.bin expected/expected5.bin
 
 
 clean:

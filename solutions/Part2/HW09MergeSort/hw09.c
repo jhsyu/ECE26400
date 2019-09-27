@@ -153,34 +153,47 @@ static void merge(int * arr, int l, int m, int r)
 #endif
 
   // if one or both of the arrays are empty, do nothing
+  bool empty_1 = true;
+  bool empty_2 = true;
+  for (int i = l; i < m+1; i++) {
+    if (arr[i] != 0) {
+      empty_1 = false;
+    }
+  }
+  for (int i = (m + 1); i < r; i++) {
+    if (arr[i] != 0) {
+      empty_2 = false;
+    }
+  }
+  if ((!empty_1) && (!empty_2)) {
+    // Hint: you may consider to allocate memory here.
+    // Allocating additiional memory makes this function easier to write
+    int * arr1 = malloc((m-l+1) * sizeof(int));
+    int * arr2 = malloc((r-m) * sizeof(int));
+
+    // merge the two parts (each part is already sorted) of the array
+    // into one sorted array
 
 
 
 
 
-  // Hint: you may consider to allocate memory here.
-  // Allocating additiional memory makes this function easier to write
-
-
-
-
-  // merge the two parts (each part is already sorted) of the array
-  // into one sorted array
 
 
 
 
 
 
+    // the following should be at the bottom of the function
+    #ifdef DEBUG
+    // Do not modify this part between #ifdef DEBUG and #endif
+    // This part is used for grading.
+    printInput("Merge out", arr, l, m, r);
+    #endif
+
+  }
 
 
-
-  // the following should be at the bottom of the function
-#ifdef DEBUG
-  // Do not modify this part between #ifdef DEBUG and #endif
-  // This part is used for grading.
-  printInput("Merge out", arr, l, m, r);
-#endif
 }
 #endif
 

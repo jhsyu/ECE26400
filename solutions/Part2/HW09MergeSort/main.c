@@ -2,9 +2,9 @@
 // *** You must modify this file
 // ***
 
-#include <stdio.h>  
-#include <stdlib.h> 
-#include <string.h> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include "hw09.h"
 
@@ -18,9 +18,9 @@ int main(int argc, char * * argv)
       return EXIT_FAILURE;
     }
 
+  int * arr;
 
   // create a pointer to store the elements read from the input file
-  int * arr;
   // size of the array
   int size;
 

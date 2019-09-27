@@ -1,9 +1,9 @@
-// ***
+sk// ***
 // *** You must modify this file
 // ***
-#include <stdio.h>  
-#include <stdlib.h> 
-#include <string.h> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include "hw09.h"
 
@@ -31,74 +31,67 @@ bool readData(char * filename, int * * arr, int * size)
 {
   // use fopen to open the file for read
   // return false if fopen fails
-
-
-
+  FILE * fptr = fopen(filename, "r");
+  if (fptr == NULL) {
+    return false;
+  }
 
   // use fseek to go to the end of the file
   // check whether fseek fails
   // if fseek fails, fclose and return false
-
-
-
-
+  int sk = fseek(fptr, 0, SEEK_END);
+  if (sk != 0) {
+    fclose(filename);
+    return false;
+  }
 
   // use ftell to determine the size of the file
+  long size = ftell(filename);
 
-
-
-  
   // use fseek to go back to the beginning of the file
   // check whether fseek fails
+  sk = fseek(fptr, 0, SEEK_SET);
 
-
-
-  
   // if fseek fails, fclose and return false
-
-
+  if (sk != 0) {
+    fclose(filename);
+    return false;
+  }
 
   // the number of integers is the file's size divided by
-  // size of int  
-
-
-
-
-  
+  // size of int
+  int numInt = size/(sizeof(int));
 
   // allocate memory for the array
-
+  int * intArr = malloc(numInt * sizeof(int));
 
   // if malloc fails, fclose and return false
-
-
+  if (intArr == NULL) {
+    fclose(filename);
+    return false;
+  }
 
   // use fread to read the number of integers in the file
+  if (numInt != (fread(intArr, sizeof(int), numInt, fptr))) {
+    // if fread does not read the correct number
+    // release allocated memory
+    // fclose
+    // return false
+    free(intArr);
+    fclose(filename);
+    return false;
+  }
 
-
-
-
-  // if fread does not read the correct number
-  // release allocated memory
-  // fclose
-  // return false
-
-
-
-
-  
   // if fread succeeds
   // close the file
+  fclose(filename);
 
-  
   // update the argument for the array address
+ *arr = intArr;
 
-
-  
   // update the size of the array
+  *size = numInt;
 
-
-  
   return true;
 }
 #endif
@@ -110,33 +103,26 @@ bool readData(char * filename, int * * arr, int * size)
 bool writeData(char * filename, const int * arr, int size)
 {
   // fopen for write
-
-
+  FILE * fptr = fopen(filename, "w");
 
   // if fopen fails, return false
-
-
+  if (fptr == NULL) {
+    return false;
+  }
 
   // use fwrite to write the entire array to a file
-
-
+  int wrt = fwrite(intArr, sizeof(int), size, fptr);
 
   // check whether all elements of the array have been written
-
-
-
-  // fclose
-
-
-  
-  // if not all elements have been written, return false
-
-
+  if (wrt != size) {
+    // fclose
+    fclose(filename);
+    // if not all elements have been written, return false
+    return false;
+  }
 
   // if all elements have been written, return true
-
-
-
+  return true;
 
 
 }
@@ -162,7 +148,7 @@ static void merge(int * arr, int l, int m, int r)
   // at the beginning of the function
 #ifdef DEBUG
   // Do not modify this part between #ifdef DEBUG and #endif
-  // This part is used for grading. 
+  // This part is used for grading.
   printInput("Merge in", arr, l, m, r);
 #endif
 
@@ -181,18 +167,18 @@ static void merge(int * arr, int l, int m, int r)
   // merge the two parts (each part is already sorted) of the array
   // into one sorted array
 
-  
 
 
 
 
-  
+
+
 
 
   // the following should be at the bottom of the function
 #ifdef DEBUG
   // Do not modify this part between #ifdef DEBUG and #endif
-  // This part is used for grading. 
+  // This part is used for grading.
   printInput("Merge out", arr, l, m, r);
 #endif
 }
@@ -205,14 +191,14 @@ static void merge(int * arr, int l, int m, int r)
 //    or differ by one
 // 3. send each array to the mergeSort function until the input array
 //    is small enough (one or no element)
-// 4. sort the two arrays 
+// 4. sort the two arrays
 #ifdef TEST_MERGESSORT
-void mergeSort(int arr[], int l, int r) 
+void mergeSort(int arr[], int l, int r)
 {
   // at the beginning of the function
 #ifdef DEBUG
   // Do not modify this part between #ifdef DEBUG and #endif
-  // This part is used for grading. 
+  // This part is used for grading.
   printInput("mergeSort", arr, l, r, -1);
 #endif
 
@@ -223,10 +209,10 @@ void mergeSort(int arr[], int l, int r)
   // divide the array into two arrays
   // call mergeSort with each array
   // merge the two arrays into one
-  
 
 
 
 
-} 
+
+}
 #endif

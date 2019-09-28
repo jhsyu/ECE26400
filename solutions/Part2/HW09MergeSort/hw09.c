@@ -153,28 +153,56 @@ static void merge(int * arr, int l, int m, int r)
 #endif
 
   // if one or both of the arrays are empty, do nothing
-  bool empty_1 = true;
-  bool empty_2 = true;
+  bool emptyL = true;
+  bool emptyR = true;
+  int numL = m - (l+1);
+  int numR = r - (m+1);
   for (int i = l; i < m+1; i++) {
     if (arr[i] != 0) {
-      empty_1 = false;
+      emptyL = false;
     }
   }
   for (int i = (m + 1); i < r; i++) {
     if (arr[i] != 0) {
-      empty_2 = false;
+      emptyR = false;
     }
   }
-  if ((!empty_1) && (!empty_2)) {
+  if ((!emptyL) && (!emptyR))
+    {
     // Hint: you may consider to allocate memory here.
     // Allocating additiional memory makes this function easier to write
-    int * arr1 = malloc((m-l+1) * sizeof(int));
-    int * arr2 = malloc((r-m) * sizeof(int));
+    int * arrL = malloc(numL * sizeof(int));
+    int * arrR = malloc(numR * sizeof(int));
 
     // merge the two parts (each part is already sorted) of the array
-    // into one sorted array
-
-
+    // into one sorted array.
+    int i =0;
+    int j =0;
+    int k =0;
+    while((i<numL)&&(j<numR))
+      {
+	if(arrL[i] > arrR[j])
+	  {
+	    arr[k] = arrR[j];
+	    j++;
+	  }
+	else if(arrL[i] < arrR[j])
+	  {
+	    arr[k] = arrL[i];
+	    i++;
+	  }
+	k++;
+      }
+    while(i<numL)
+      {
+	arr[++k] = arrL[++i];
+      }
+    while(j<numR)
+      {
+	arr[++k] = arrR[++j];
+      }
+    }
+  
 
 
 

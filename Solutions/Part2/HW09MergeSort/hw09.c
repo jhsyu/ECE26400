@@ -1,4 +1,4 @@
-sk// ***
+// ***
 // *** You must modify this file
 // ***
 #include <stdio.h>

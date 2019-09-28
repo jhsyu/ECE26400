@@ -41,12 +41,12 @@ bool readData(char * filename, int * * arr, int * size)
   // if fseek fails, fclose and return false
   int sk = fseek(fptr, 0, SEEK_END);
   if (sk != 0) {
-    fclose(filename);
+    fclose(fptr);
     return false;
   }
 
   // use ftell to determine the size of the file
-  long size = ftell(filename);
+  long sizeF = ftell(fptr);
 
   // use fseek to go back to the beginning of the file
   // check whether fseek fails
@@ -54,20 +54,20 @@ bool readData(char * filename, int * * arr, int * size)
 
   // if fseek fails, fclose and return false
   if (sk != 0) {
-    fclose(filename);
+    fclose(fptr);
     return false;
   }
 
   // the number of integers is the file's size divided by
   // size of int
-  int numInt = size/(sizeof(int));
+  int numInt = sizeF/(sizeof(int));
 
   // allocate memory for the array
   int * intArr = malloc(numInt * sizeof(int));
 
   // if malloc fails, fclose and return false
   if (intArr == NULL) {
-    fclose(filename);
+    fclose(fptr);
     return false;
   }
 
@@ -78,16 +78,16 @@ bool readData(char * filename, int * * arr, int * size)
     // fclose
     // return false
     free(intArr);
-    fclose(filename);
+    fclose(fptr);
     return false;
   }
 
   // if fread succeeds
   // close the file
-  fclose(filename);
+  fclose(fptr);
 
   // update the argument for the array address
- *arr = intArr;
+  *arr = intArr;
 
   // update the size of the array
   *size = numInt;
@@ -111,12 +111,12 @@ bool writeData(char * filename, const int * arr, int size)
   }
 
   // use fwrite to write the entire array to a file
-  int wrt = fwrite(intArr, sizeof(int), size, fptr);
+  int wrt = fwrite(arr, sizeof(int), size, fptr);
 
   // check whether all elements of the array have been written
   if (wrt != size) {
     // fclose
-    fclose(filename);
+    fclose(fptr);
     // if not all elements have been written, return false
     return false;
   }
@@ -167,8 +167,7 @@ static void merge(int * arr, int l, int m, int r)
       emptyR = false;
     }
   }
-  if ((!emptyL) && (!emptyR))
-    {
+  if ((!emptyL) && (!emptyR)) {
     // Hint: you may consider to allocate memory here.
     // Allocating additiional memory makes this function easier to write
     int * arrL = malloc(numL * sizeof(int));
@@ -176,33 +175,23 @@ static void merge(int * arr, int l, int m, int r)
 
     // merge the two parts (each part is already sorted) of the array
     // into one sorted array.
-    int i =0;
-    int j =0;
-    int k =0;
-    while((i < numL) && (j < numR))
-      {
-	if(arrL[i] > arrR[j])
-	  {
-	    arr[k] = arrR[j];
-	    j++;
-	  }
-	else if(arrL[i] < arrR[j])
-	  {
-	    arr[k] = arrL[i];
-	    i++;
-	  }
-	k++;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    while ((i < numL) && (j < numR)) {
+      if (arrL[i] <= arrR[j]) {
+        arr[++k] = arrL[++i];
       }
-    while(i < numL)
-      {
-	arr[++k] = arrL[++i];
-      }
-    while(j < numR)
-      {
-	arr[++k] = arrR[++j];
+      else {
+        arr[++k] = arrR[++j];
       }
     }
-
+    while (i < numL) {
+      arr[k] = arrL[++i];
+    }
+    while (j < numR) {
+      arr[k] = arrR[++j];
+    }
 
     // the following should be at the bottom of the function
     #ifdef DEBUG

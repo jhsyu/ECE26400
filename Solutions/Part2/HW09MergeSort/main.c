@@ -24,8 +24,8 @@ int main(int argc, char * * argv)
   // size of the array
   int size;
 
-  bool rtv;
-  rtv = readData(....); // read the input file, allocate memory
+  // read the input file, allocate memory
+  bool rtv = readData(argv[1], &arr, &size);
   if (rtv == false)
     {
       return EXIT_FAILURE;
@@ -33,11 +33,10 @@ int main(int argc, char * * argv)
 
   // call mergeSort
   // be careful about the arguments
-  mergeSort(....);
-
+  mergeSort(arr, 0, (size - 1));
 
   // write results to the output file
-  rtv = writeData(....);
+  rtv = writeData(argv[2], arr, size);
   free (arr);
 
   if (rtv == false)

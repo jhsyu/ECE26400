@@ -155,9 +155,9 @@ static void merge(int * arr, int l, int m, int r)
   // if one or both of the arrays are empty, do nothing
   bool emptyL = true;
   bool emptyR = true;
-  int numL = m - (l+1);
-  int numR = r - (m+1);
-  for (int i = l; i < m+1; i++) {
+  int numL = m - (l + 1);
+  int numR = r - (m + 1);
+  for (int i = l; i < (m + 1); i ++) {
     if (arr[i] != 0) {
       emptyL = false;
     }
@@ -179,7 +179,7 @@ static void merge(int * arr, int l, int m, int r)
     int i =0;
     int j =0;
     int k =0;
-    while((i<numL)&&(j<numR))
+    while((i < numL) && (j < numR))
       {
 	if(arrL[i] > arrR[j])
 	  {
@@ -193,23 +193,15 @@ static void merge(int * arr, int l, int m, int r)
 	  }
 	k++;
       }
-    while(i<numL)
+    while(i < numL)
       {
 	arr[++k] = arrL[++i];
       }
-    while(j<numR)
+    while(j < numR)
       {
 	arr[++k] = arrR[++j];
       }
     }
-  
-
-
-
-
-
-
-
 
 
     // the following should be at the bottom of the function
@@ -245,14 +237,17 @@ void mergeSort(int arr[], int l, int r)
 
   // if the array has no or one element, do nothing
 
-
-
   // divide the array into two arrays
   // call mergeSort with each array
-  // merge the two arrays into one
 
+  if ((l < r) && ((r - l) != 1)) {
+    int m = l + (l - r) / 2;
+    mergeSort(arr, l, m);
+    mergeSort(arr, m, r);
+    // merge the two arrays into one
 
-
+    merge(arr, l, m, r);
+  }
 
 
 }

@@ -157,14 +157,14 @@ static void merge(int * arr, int l, int m, int r)
   // if one or both of the arrays are empty, do nothing
   bool emptyL = true;
   bool emptyR = true;
-  int numL = m - l;
+  int numL = m - l + 1;
   int numR = r - m;
   for (int i = l; i < (m + 1); i ++) {
     if (arr[i] != 0) {
       emptyL = false;
     }
   }
-  for (int i = (m + 1); i <= r; i++) {
+  for (int i = (m + 1); i < (r + 1); i++) {
     if (arr[i] != 0) {
       emptyR = false;
     }

@@ -40,6 +40,8 @@ bool readData(char * filename, int * * arr, int * size)
   // check whether fseek fails
   // if fseek fails, fclose and return false
   int sk = fseek(fptr, 0, SEEK_END);
+  //fseek returns 0 if succeeds, non-zero if fails.
+
   if (sk != 0) {
     fclose(fptr);
     return false;
@@ -147,7 +149,7 @@ static void merge(int * arr, int l, int m, int r)
 {
   // at the beginning of the function
 #ifdef DEBUG
-  // Do not modify this part between #ifdef DEBUG and #endif
+  // Do not modify this part between #ifdefDEBUG and #endif
   // This part is used for grading.
   printInput("Merge in", arr, l, m, r);
 #endif
@@ -155,14 +157,14 @@ static void merge(int * arr, int l, int m, int r)
   // if one or both of the arrays are empty, do nothing
   bool emptyL = true;
   bool emptyR = true;
-  int numL = m - (l + 1);
-  int numR = r - (m + 1);
+  int numL = m - l;
+  int numR = r - m;
   for (int i = l; i < (m + 1); i ++) {
     if (arr[i] != 0) {
       emptyL = false;
     }
   }
-  for (int i = (m + 1); i < r; i++) {
+  for (int i = (m + 1); i <= r; i++) {
     if (arr[i] != 0) {
       emptyR = false;
     }
@@ -172,6 +174,12 @@ static void merge(int * arr, int l, int m, int r)
     // Allocating additiional memory makes this function easier to write
     int * arrL = malloc(numL * sizeof(int));
     int * arrR = malloc(numR * sizeof(int));
+    for (int ind = l; ind <= m; ind++) {
+      arrL[ind] = arr[ind];
+    }
+    for (int ind = (m + 1); ind <= r; ind++) {
+      arrR[ind] = arr[ind];
+    }
 
     // merge the two parts (each part is already sorted) of the array
     // into one sorted array.
@@ -195,7 +203,7 @@ static void merge(int * arr, int l, int m, int r)
 
     // the following should be at the bottom of the function
     #ifdef DEBUG
-    // Do not modify this part between #ifdef DEBUG and #endif
+    // Do not modify this part between #ifdefDEBUG and #endif
     // This part is used for grading.
     printInput("Merge out", arr, l, m, r);
     #endif
@@ -219,7 +227,7 @@ void mergeSort(int arr[], int l, int r)
 {
   // at the beginning of the function
 #ifdef DEBUG
-  // Do not modify this part between #ifdef DEBUG and #endif
+  // Do not modify this part between #ifdefDEBUG and #endif
   // This part is used for grading.
   printInput("mergeSort", arr, l, r, -1);
 #endif
@@ -230,9 +238,9 @@ void mergeSort(int arr[], int l, int r)
   // call mergeSort with each array
 
   if ((l < r) && ((r - l) != 1)) {
-    int m = l + (l - r) / 2;
+    int m = l + (r - l) / 2;
     mergeSort(arr, l, m);
-    mergeSort(arr, m, r);
+    mergeSort(arr, (m + 1), r);
     // merge the two arrays into one
 
     merge(arr, l, m, r);

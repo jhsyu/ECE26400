@@ -231,7 +231,7 @@ void mergeSort(int arr[], int l, int r)
   // divide the array into two arrays
   // call mergeSort with each array
 
-  if ((l < r) && ((r - l) != 1)) {
+  if ((l < r) && ((r - l) > 0)) {
     int m = l + (r - l) / 2;
     mergeSort(arr, l, m);
     mergeSort(arr, (m + 1), r);

@@ -155,51 +155,48 @@ static void merge(int * arr, int l, int m, int r)
 #endif
 
   // if one or both of the arrays are empty, do nothing
-  bool emptyL = true;
-  bool emptyR = true;
-  int numL = m - l + 1;
+  int numL = (m - l) + 1;
   int numR = r - m;
-  for (int i = l; i < (m + 1); i ++) {
-    if (arr[i] != 0) {
-      emptyL = false;
-    }
-  }
-  for (int i = (m + 1); i < (r + 1); i++) {
-    if (arr[i] != 0) {
-      emptyR = false;
-    }
-  }
-  if ((!emptyL) && (!emptyR)) {
+  if ((numL > 0) && (numR > 0)) {
     // Hint: you may consider to allocate memory here.
     // Allocating additiional memory makes this function easier to write
-    int * arrL = malloc(numL * sizeof(int));
-    int * arrR = malloc(numR * sizeof(int));
-    for (int ind = l; ind <= m; ind++) {
-      arrL[ind] = arr[ind];
-    }
-    for (int ind = (m + 1); ind <= r; ind++) {
-      arrR[ind] = arr[ind];
-    }
+    int* arrL = malloc(sizeof(int) * numL);
+    int* arrR = malloc(sizeof(int) * numR);
 
+    for (int i = 0; i < numL; i++) {
+      arrL[i] = arr[l + i];
+    }
+    for (int i = 0; i < numR; i++) {
+      arrR[i] = arr[(m + 1) + i];
+    }
     // merge the two parts (each part is already sorted) of the array
     // into one sorted array.
     int i = 0;
     int j = 0;
-    int k = 0;
+    int k = l;
     while ((i < numL) && (j < numR)) {
       if (arrL[i] <= arrR[j]) {
-        arr[++k] = arrL[++i];
+        arr[k] = arrL[i];
+        i++;
       }
       else {
-        arr[++k] = arrR[++j];
+        arr[k] = arrR[j];
+        j++;
       }
+      k++;
     }
     while (i < numL) {
-      arr[k] = arrL[++i];
+      arr[k] = arrL[i];
+      i++;
+      k++;
     }
     while (j < numR) {
-      arr[k] = arrR[++j];
+      arr[k] = arrR[j];
+      j++;
+      k++;
     }
+
+  }
 
     // the following should be at the bottom of the function
     #ifdef DEBUG
@@ -207,9 +204,6 @@ static void merge(int * arr, int l, int m, int r)
     // This part is used for grading.
     printInput("Merge out", arr, l, m, r);
     #endif
-
-  }
-
 
 }
 #endif

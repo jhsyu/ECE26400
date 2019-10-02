@@ -124,6 +124,7 @@ bool writeData(char * filename, const int * arr, int size)
   }
 
   // if all elements have been written, return true
+  fclose(fptr);
   return true;
 
 
@@ -196,6 +197,8 @@ static void merge(int * arr, int l, int m, int r)
       k++;
     }
 
+    free(arrL);
+    free(arrR);
   }
 
     // the following should be at the bottom of the function
@@ -204,7 +207,6 @@ static void merge(int * arr, int l, int m, int r)
     // This part is used for grading.
     printInput("Merge out", arr, l, m, r);
     #endif
-
 }
 #endif
 

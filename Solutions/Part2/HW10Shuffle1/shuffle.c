@@ -29,26 +29,49 @@ static void printDeck(CardDeck deck)
 //
 // The right deck is held by the right hand taking some (at least one)
 // cards from the bottom of the original deck.
-void dividehelp(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck, int * sign, int i, int j, int k)
+void dividehelp(CardDeck origDeck, CardDeck ** left, CardDeck ** right, int * signArr, int k)
 {
+  // terminating condition: all the card as been sent.
+  // at this time, print all the cards to leftDeck or rightdeck.
   if (k == origDeck.size) {
-    for (int ind = k; ind < origDeck.size; ind--) {
-      if (sign[ind] == 0) {
-        leftDeck->cards[ind]
+    char * lptr = (*left)->cards;
+    char * rptr = (*right)->cards;
+    for (int ind = 0; ind < origDeck.size; ind++) {
+      //if the sign is -1, this card has been chosen to leftDeck.
+      //print it to leftDeck.cards.
+      if (sign[ind] == -1) {
+        *lptr = origDeck.cards[ind];
+        lptr = lptr + sizeof(char);
       }
+      //print it to rightDeck.cards.
+      else if (sign[ind] == 1) {
+        *rptr = origDeck.cards[ind];
+        rptr = rptr + sizeof(char);
+      }
+      //if the sign is 0, should be an error.
     }
+    //move to next situation.
+    *left = *left + sizeof(CardDeck);
+    *right = *right + sizeof(CardDeck);
+    return;
   }
+  //put this card to leftDeck.
+  sign[k] = -1;
+  //consider nect card.
+  dividehelp(origDeck, left, right, sign, (k+1));
+  //put this card to the right deck.
+  sign[k] = 1;
+  dividehelp(origDeck, left, right, sign, (k+1));
 }
-
 void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 {
-  //creatre a sign aray and initialize it to zero.
-  //zero is unchosen, -1 is left, 1 is right.
+  //set up an array to record which element in lef or right,
+  //-1: left  0: unchosen 1: right.
   int * sign = malloc(sizeof(int) * origDeck.size);
   sign = {0};
-  for (int ind = 0; i < count; i++) {
-    /* code */
-  }
+  CardDeck ** left = &leftDeck;
+  CardDeck ** right = &rightDeck;
+  dividehelp(origDeck, left, right, sign, 0);
 
 }
 #endif

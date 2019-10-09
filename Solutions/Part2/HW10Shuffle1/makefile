@@ -21,17 +21,14 @@ testmemory: hw10
 testall: test1 test2 test3
 
 test1: hw10
-	./hw10 4 > output
-	sort output > output4
+	./hw10 4 | sort > output4
 	diff -w output4 expected/expected4
 
 test2: hw10
-	./hw10 8 > output
-	sort output > output8
+	./hw10 8 | sort > output8
 	diff -w output8 expected/expected8
 test3: hw10
-	./hw10 11 > output
-	sort output > output11
+	./hw10 11 | sort > output11
 	diff -w output11 expected/expected11
 
 clean:

@@ -106,13 +106,13 @@ void interleavehelp(CardDeck interleaved,CardDeck left, CardDeck right, int i, i
     printDeck(interleaved);
     return;
   }
+  //choose one card from the right deck.
+  interleaved.cards[k] = right.cards[j];
+  interleavehelp(interleaved, left, right, i, (j + 1), (k + 1));
   //choose one card from the left deck.
   interleaved.cards[k] = left.cards[i];
   interleavehelp(interleaved, left, right, (i + 1), j, (k + 1));
 
-  //choose one card from the right deck.
-  interleaved.cards[k] = right.cards[j];
-  interleavehelp(interleaved, left, right, i, (j + 1), (k + 1));
 }
 void interleave(CardDeck leftDeck, CardDeck rightDeck)
 {

@@ -150,7 +150,7 @@ void shuffle(CardDeck origDeck)
   CardDeck * ldk = malloc(posbNumD * sizeof(CardDeck));
   CardDeck * rdk = malloc(posbNumD * sizeof(CardDeck));
   divide(origDeck, ldk, rdk);
-  for (int ind = 0; ind < posbNumD + 1; ind++) {
+  for (int ind = 0; ind < posbNumD; ind++) {
     interleave(ldk[ind], rdk[ind]);
   }
   free(ldk);

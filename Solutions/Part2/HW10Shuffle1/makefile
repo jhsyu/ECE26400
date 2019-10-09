@@ -22,15 +22,15 @@ testall: test1 test2 test3
 
 test1: hw10
 	./hw10 4 > output1
-	diff output1 expected/expected4
+	diff -w output1 expected/expected4
 
 test2: hw10
 	./hw10 8 > output1
-	diff output2 expected/expected8
+	diff -w output2 expected/expected8
 
 test3: hw10
 	./hw10 10 > output1
-	diff output3 expected/expected11
+	diff -w output3 expected/expected11
 
 clean:
 	rm -f hw10 *.o output?

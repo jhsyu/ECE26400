@@ -29,50 +29,15 @@ static void printDeck(CardDeck deck)
 //
 // The right deck is held by the right hand taking some (at least one)
 // cards from the bottom of the original deck.
-void dividehelp(CardDeck origDeck, CardDeck ** left, CardDeck ** right, int * signArr, int k)
-{
-  // terminating condition: all the card as been sent.
-  // at this time, print all the cards to leftDeck or rightdeck.
-  if (k == origDeck.size) {
-    char * lptr = (*left)->cards;
-    char * rptr = (*right)->cards;
-    for (int ind = 0; ind < origDeck.size; ind++) {
-      //if the sign is -1, this card has been chosen to leftDeck.
-      //print it to leftDeck.cards.
-      if (signArr[ind] == -1) {
-        *lptr = origDeck.cards[ind];
-        lptr = lptr + sizeof(char);
-      }
-      //print it to rightDeck.cards.
-      else if (signArr[ind] == 1) {
-        *rptr = origDeck.cards[ind];
-        rptr = rptr + sizeof(char);
-      }
-      //if the sign is 0, should be an error.
-    }
-    //move to next situation.
-    *left = *left + sizeof(CardDeck);
-    *right = *right + sizeof(CardDeck);
-    return;
-  }
-  //put this card to leftDeck.
-  signArr[k] = -1;
-  //consider nect card.
-  dividehelp(origDeck, left, right, signArr, (k+1));
-  //put this card to the right deck.
-  signArr[k] = 1;
-  dividehelp(origDeck, left, right, signArr, (k+1));
-}
 void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 {
-  //set up an array to record which element in lef or right,
-  //-1: left  0: unchosen 1: right.
-  int * sign = malloc(sizeof(int) * origDeck.size);
-  memset(sign, 0, origDeck.size);
-  CardDeck ** left = &leftDeck;
-  CardDeck ** right = &rightDeck;
-  dividehelp(origDeck, left, right, sign, 0);
-
+  for (int ind = 0; ind < origDeck.size - 1; ind++) {
+    leftDeck[ind].size = ind + 1;
+    memcpy(leftDeck[ind].cards, origDeck.cards, leftDeck[ind].size * sizeof(origDeck.cards[0]));
+    rightDeck[ind].size = origDeck.size - leftDeck[ind].size;
+    memcpy(rightDeck[ind].cards, &origDeck.cards[ind + 1], rightDeck[ind].size * sizeof(origDeck.cards[0]));
+  }
+  return;
 }
 #endif
 
@@ -185,7 +150,7 @@ void shuffle(CardDeck origDeck)
   CardDeck * ldk = malloc(posbNumD * sizeof(CardDeck));
   CardDeck * rdk = malloc(posbNumD * sizeof(CardDeck));
   divide(origDeck, ldk, rdk);
-  for (int ind = 0; ind < posbNumD; ind++) {
+  for (int ind = 0; ind < posbNumD + 1; ind++) {
     interleave(ldk[ind], rdk[ind]);
   }
   free(ldk);

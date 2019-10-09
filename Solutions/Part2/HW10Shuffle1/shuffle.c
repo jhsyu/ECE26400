@@ -39,12 +39,12 @@ void dividehelp(CardDeck origDeck, CardDeck ** left, CardDeck ** right, int * si
     for (int ind = 0; ind < origDeck.size; ind++) {
       //if the sign is -1, this card has been chosen to leftDeck.
       //print it to leftDeck.cards.
-      if (sign[ind] == -1) {
+      if (signArr[ind] == -1) {
         *lptr = origDeck.cards[ind];
         lptr = lptr + sizeof(char);
       }
       //print it to rightDeck.cards.
-      else if (sign[ind] == 1) {
+      else if (signArr[ind] == 1) {
         *rptr = origDeck.cards[ind];
         rptr = rptr + sizeof(char);
       }
@@ -56,19 +56,19 @@ void dividehelp(CardDeck origDeck, CardDeck ** left, CardDeck ** right, int * si
     return;
   }
   //put this card to leftDeck.
-  sign[k] = -1;
+  signArr[k] = -1;
   //consider nect card.
-  dividehelp(origDeck, left, right, sign, (k+1));
+  dividehelp(origDeck, left, right, signArr, (k+1));
   //put this card to the right deck.
-  sign[k] = 1;
-  dividehelp(origDeck, left, right, sign, (k+1));
+  signArr[k] = 1;
+  dividehelp(origDeck, left, right, signArr, (k+1));
 }
 void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 {
   //set up an array to record which element in lef or right,
   //-1: left  0: unchosen 1: right.
   int * sign = malloc(sizeof(int) * origDeck.size);
-  sign = {0};
+  memset(sign, 0, origDeck.size);
   CardDeck ** left = &leftDeck;
   CardDeck ** right = &rightDeck;
   dividehelp(origDeck, left, right, sign, 0);
@@ -121,7 +121,7 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 void interleavehelp(CardDeck interleaved,CardDeck left, CardDeck right, int i, int j, int k)
 {
   //terminating conditions.
-  if (k == interleaved.size {
+  if (k == interleaved.size) {
     printDeck(interleaved);
     return;
   }
@@ -157,9 +157,9 @@ void interleave(CardDeck leftDeck, CardDeck rightDeck)
   //for example, ldk.size and ldk.cards = {A, 2}
   CardDeck interleavedDeck =
   {
-    .size = leftDeck.size + rightDeck.size;
-    .cards = {0};
-  }
+    .size = leftDeck.size + rightDeck.size,
+    .cards = {0}
+  };
   interleavehelp(interleavedDeck, leftDeck, rightDeck, 0, 0, 0);
 
 }
@@ -182,10 +182,10 @@ void interleave(CardDeck leftDeck, CardDeck rightDeck)
 void shuffle(CardDeck origDeck)
 {
   int posbNumD = origDeck.size - 1;
-  int * ldk = malloc(posbNumD * sizeof(CardDeck));
-  int * rdk = malloc(posbNumD * sizeof(CardDeck));
+  CardDeck * ldk = malloc(posbNumD * sizeof(CardDeck));
+  CardDeck * rdk = malloc(posbNumD * sizeof(CardDeck));
   divide(origDeck, ldk, rdk);
-  for (int ind = 0; i < posbNumD; i++) {
+  for (int ind = 0; ind < posbNumD; ind++) {
     interleave(ldk[ind], rdk[ind]);
   }
   free(ldk);

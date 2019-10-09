@@ -4,7 +4,7 @@ ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
 
-TESTFALGS = DTEST_DIVIDE DTEST_INTERLEAVE DTEST_SHUFFLE
+TESTFALGS = -DTEST_DIVIDE -DTEST_INTERLEAVE -DTEST_SHUFFLE
 
 SRCS = main.c shuffle.c
 OBJS = $(SRCS:%.c=%.o)

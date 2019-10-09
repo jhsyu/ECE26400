@@ -26,12 +26,13 @@ test1: hw10
 	diff -w output4 expected/expected4
 
 test2: hw10
-	./hw10 8 > output1
-	diff -w output2 expected/expected8
-
+	./hw10 8 > output
+	sort output > output8
+	diff -w output8 expected/expected8
 test3: hw10
-	./hw10 10 > output1
-	diff -w output3 expected/expected11
+	./hw10 11 > output
+	sort output > output11
+	diff -w output11 expected/expected11
 
 clean:
 	rm -f hw10 *.o output?

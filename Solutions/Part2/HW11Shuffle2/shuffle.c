@@ -32,7 +32,7 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
   return;
 }
 
-int interleavehelp(CardDeck interleaved, CardDeck left, CardDeck right, CardDeck * output, int * index, int i, int j, int k)
+void interleavehelp(CardDeck interleaved, CardDeck left, CardDeck right, CardDeck * output, int * index, int i, int j, int k)
 {
   //terminating conditions.
   if (i == left.size) {
@@ -43,7 +43,7 @@ int interleavehelp(CardDeck interleaved, CardDeck left, CardDeck right, CardDeck
     memcpy(output[*index].cards, interleaved.cards, interleaved.size * sizeof(interleaved.cards[0]));
     printDeck(interleaved);
     (*index) ++;
-    return (*index);
+    return;
   }
   if (j == right.size) {
     for (; k < interleaved.size; k++) {
@@ -53,7 +53,7 @@ int interleavehelp(CardDeck interleaved, CardDeck left, CardDeck right, CardDeck
     memcpy(output[*index].cards, interleaved.cards, interleaved.size * sizeof(interleaved.cards[0]));
     printDeck(interleaved);
     (*index) ++;
-    return (*index);
+    return;
   }
   //choose one card from the left deck.
   interleaved.cards[k] = left.cards[i];
@@ -61,9 +61,8 @@ int interleavehelp(CardDeck interleaved, CardDeck left, CardDeck right, CardDeck
   //choose one card from the right deck.
   interleaved.cards[k] = right.cards[j];
   interleavehelp(interleaved, left, right, output, index, i, (j + 1), (k + 1));
-  return (*index);
 }
-void interleave(CardDeck leftDeck, CardDeck rightDeck, CardDeck * output)
+void interleave(CardDeck leftDeck, CardDeck rightDeck, CardDeck * output, int * index)
 {
   //the argument are a pair of element in ldk and rdk.
   //they contain the info about the size of each deck,
@@ -74,7 +73,7 @@ void interleave(CardDeck leftDeck, CardDeck rightDeck, CardDeck * output)
     .size = leftDeck.size + rightDeck.size,
     .cards = {0}
   };
-  int index = interleavehelp(interleavedDeck, leftDeck, rightDeck, output, &index, 0, 0, 0);
+  interleavehelp(interleavedDeck, leftDeck, rightDeck, output, index, 0, 0, 0);
 
 }
 // about shuffle:
@@ -108,10 +107,11 @@ void shuffleHelp(CardDeck origDeck, int round, int posbNumD, int num, int ind)
   CardDeck * ldk = malloc(posbNumD * sizeof(CardDeck));
   CardDeck * rdk = malloc(posbNumD * sizeof(CardDeck));
   CardDeck * shuffleOut = malloc(num * sizeof(CardDeck));
+  int index = 0;
   divide(origDeck, ldk, rdk);
   for (size_t i = 0; i < posbNumD; i++) {
     // need add an argumrnt in "interleave" to write the output to an array.
-    interleave(ldk[i], rdk[i], shuffleOut);
+    interleave(ldk[i], rdk[i], shuffleOut, &index);
   }
   for (size_t i = 0; i < posbNumD; i++) {
     shuffleHelp(shuffleOut[i], round, posbNumD, num, ind + 1);

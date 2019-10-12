@@ -3,6 +3,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static void printDeck(CardDeck deck)
+{
+  int ind;
+  for (ind = 0; ind < deck.size; ind ++)
+    {
+      printf("%c ", deck.cards[ind]);
+    }
+  printf("\n");
+}
+
+void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
+{
+  for (int ind = 0; ind < origDeck.size - 1; ind++) {
+    leftDeck[ind].size = ind + 1;
+    memcpy(leftDeck[ind].cards, origDeck.cards, leftDeck[ind].size * sizeof(origDeck.cards[0]));
+    rightDeck[ind].size = origDeck.size - leftDeck[ind].size;
+    memcpy(rightDeck[ind].cards, &origDeck.cards[ind + 1], rightDeck[ind].size * sizeof(origDeck.cards[0]));
+  }
+  return;
+}
 
 void interleavehelp(CardDeck interleaved,CardDeck left, CardDeck right, int i, int j, int k)
 {
@@ -55,9 +75,12 @@ void shuffle(CardDeck origDeck, int round)
   int posbNumD = origDeck.size - 1;
   CardDeck * ldk = malloc(posbNumD * sizeof(CardDeck));
   CardDeck * rdk = malloc(posbNumD * sizeof(CardDeck));
-  divide(origDeck, ldk, rdk);
-  for (int ind = 0; ind < posbNumD; ind++) {
-    interleave(ldk[ind], rdk[ind]);
+  for (size_t i = 0; i < round; i++) {
+    divide(origDeck, ldk, rdk);
+    for (int ind = 0; ind < posbNumD; ind++) {
+      interleave(ldk[ind], rdk[ind]);
+    }
+
   }
   free(ldk);
   free(rdk);

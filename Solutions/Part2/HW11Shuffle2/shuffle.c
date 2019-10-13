@@ -32,20 +32,16 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
   return;
 }
 
-void interleavehelp(CardDeck interleaved,CardDeck left, CardDeck right, int i, int j, int k)
+void interleavehelp(CardDeck interleaved,CardDeck left, CardDeck right, int round, int i, int j, int k)
 {
   //terminating conditions.
-  /*  unnecessary.
-  if (k == interleaved.size) {
-    printDeck(interleaved);
-    return;
-  }*/
   if (i == left.size) {
     for (; k < interleaved.size; k++){
       interleaved.cards[k] = right.cards[j];
       j++;
     }
     printDeck(interleaved);
+    shuffle(interleaved, round - 1);
     return;
   }
   if (j == right.size) {
@@ -54,18 +50,18 @@ void interleavehelp(CardDeck interleaved,CardDeck left, CardDeck right, int i, i
       i++;
     }
     printDeck(interleaved);
+    shuffle(interleaved, round -1);
     return;
   }
   //choose one card from the left deck.
   interleaved.cards[k] = left.cards[i];
-  interleavehelp(interleaved, left, right, (i + 1), j, (k + 1));
+  interleavehelp(interleaved, left, right, round, (i + 1), j, (k + 1));
   //choose one card from the right deck.
   interleaved.cards[k] = right.cards[j];
-  interleavehelp(interleaved, left, right, i, (j + 1), (k + 1));
+  interleavehelp(interleaved, left, right, round, i, (j + 1), (k + 1));
 
 }
-
-void interleave(CardDeck leftDeck, CardDeck rightDeck)
+void interleave(CardDeck leftDeck, CardDeck rightDeck, int round)
 {
   //the argument are a pair of element in ldk and rdk.
   //they contain the info about the size of each deck,
@@ -76,33 +72,35 @@ void interleave(CardDeck leftDeck, CardDeck rightDeck)
     .size = leftDeck.size + rightDeck.size,
     .cards = {0}
   };
-  interleavehelp(interleavedDeck, leftDeck, rightDeck, 0, 0, 0);
+  interleavehelp(interleavedDeck, leftDeck, rightDeck, round, 0, 0, 0);
 
 }
-void shuffleHelp(CardDeck origDeck, int round, CardDeck ** ldkptr, CardDeck ** rdkptr, CardDeck ** output, int posbWay, int posbNumD, int index)
-{
-    ldkptr[index] = malloc(posbNumD * sizeof(CardDeck));
-    rdkptr[index] = malloc(posbNumD * sizeof(CardDeck));
-    output[index] = malloc(posbWay * sizeof(CardDeck));
-    divide(origDeck, *ldkptr[index], *rdkptr[index]);
-    for (size_t ind = 0; ind < posbNumD; ind++) {
-      interleave(ldkptr[index][ind], rdkptr[index][ind], &output[index][ind]);
-    }
-    for (size_t ind = 0; ind < posbWay; ind++) {
-      shuffleHelp(output[index][ind], round, ldkptr, rdkptr, output, index + 1);
-    }
-    free(ldkptr[index]);
-    free(rdkptr[index]);
-    free(output[index]);
-    //NEED TO DO: ADD A ARGUMRNT TO INTERLEAVE.   
-}
+
+// The shuffle function has the following steps:
+
+// 1. calculate the number of possible left and right decks. It is
+// the number of cards - 1 because the left deck may have 1, 2,...,
+// #cards - 1 cards.
+//
+// 2. allocate memory to store these possible pairs of left and right
+// decks.
+//
+// 3. send each pair to the interleave function
+//
+// 4. release allocated memory
+//
 void shuffle(CardDeck origDeck, int round)
 {
+  if (round == 0) {
+    return;
+  }
   int posbNumD = origDeck.size - 1;
-  int posbWay = power(2, origDeck.size) - 2;
-  CardDeck ** ldkptr;
-  CardDeck ** rdkptr;
-  CardDeck ** output;
-  shuffleHelp(origDeck, round, ldkptr, rdkptr, output, 0);
-
+  CardDeck * ldk = malloc(posbNumD * sizeof(CardDeck));
+  CardDeck * rdk = malloc(posbNumD * sizeof(CardDeck));
+  divide(origDeck, ldk, rdk);
+  for (int ind = 0; ind < posbNumD; ind++) {
+    interleave(ldk[ind], rdk[ind], round);
+  }
+  free(ldk);
+  free(rdk);
 }

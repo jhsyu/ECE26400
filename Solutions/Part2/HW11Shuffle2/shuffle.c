@@ -13,14 +13,6 @@ static void printDeck(CardDeck deck)
   printf("\n");
 }
 
-int power(int base, int power)
-{
-  for (size_t i = 0; i < power - 2; i++) {
-    base = base * base;
-  }
-  return base;
-}
-
 void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 {
   for (int ind = 0; ind < origDeck.size - 1; ind++) {

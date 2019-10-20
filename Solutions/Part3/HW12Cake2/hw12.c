@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <string.h>
 #include "hw12.h"
 
@@ -29,8 +29,17 @@ void printListNode(ListNode * head)
 // The first node (head) stores 0, the next node stores 1,
 // ..., the last node stores valn - 1
 // return the head of the linked listn
+ListNode * createHelp(int Valn, int index)
+{
+  ListNode * lptr = malloc(sizeof(ListNode));
+  lptr->value = index;
+  lptr->next = createHelp(valn, index + 1);
+  return lptr;
+}
 ListNode * createList(int valn)
 {
+  ListNode * head = createHelp(valn, 0);
+  return head;
 }
 #endif
 
@@ -49,7 +58,7 @@ void eliminate(ListNode * head, int valk)
   // this #ifdef ... #endif should be inside the condition *BEFORE* a
   // node' value is printed and it is deleted
   ListNode * todelete = p;
-  printListNode (todelete); 
+  printListNode (todelete);
 #endif
 }
 #endif
@@ -71,7 +80,26 @@ void eliminate(ListNode * head, int valk)
 // the head). If this occurs, return the second node of the list.
 ListNode * deleteNode(ListNode * head, ListNode * todelete)
 {
+  if (head == NULL) {
+    return NULL;
+  }
+  if (todelete == NULL) {
+    return NULL;
+  }
+  ListNode * next = head.next;
+  ListNode * curr = head;
+  if (head == todelete) {
+    free(head);
+    return next;
+  }
+  while (next != NULL) {
+    if (next->value == todelete->value) {
+      curr->next = todelete->next;
+      free(todelete);
+    }
+    curr = next;
+    next = next->next;
+  }
+  return head;
 }
 #endif
-
-

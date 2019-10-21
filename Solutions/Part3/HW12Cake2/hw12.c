@@ -31,9 +31,13 @@ void printListNode(ListNode * head)
 // return the head of the linked listn
 ListNode * createHelp(int Valn, int index)
 {
+  // terminating condtion: create the node for vlan.
+  if (index == Valn) {
+    return NULL;
+  }
   ListNode * lptr = malloc(sizeof(ListNode));
   lptr->value = index;
-  lptr->next = createHelp(valn, index + 1);
+  lptr->next = createHelp(Valn, index + 1);
   return lptr;
 }
 ListNode * createList(int valn)
@@ -54,12 +58,38 @@ ListNode * createList(int valn)
 // print the values of the nodes to be deleted
 void eliminate(ListNode * head, int valk)
 {
-#ifdef DEBUG
-  // this #ifdef ... #endif should be inside the condition *BEFORE* a
-  // node' value is printed and it is deleted
-  ListNode * todelete = p;
-  printListNode (todelete);
-#endif
+  // count the n.
+  int n = 0;
+  ListNode * p = head;
+  while (p != NULL) {
+    n ++;
+    p = p->next;
+  }
+  //initialize the list pointer.
+  p = head;
+  // count starts from 1, not 0.
+  int count = 1;
+  //initialize the value of remain.
+  int remain = n;
+  while (remain != 1) {
+    if (count == valk) {
+      #ifdef DEBUG
+      // this #ifdef ... #endif should be inside the condition *BEFORE* a
+      // node' value is printed and it is deleted
+      ListNode * todelete = p;
+      printListNode (todelete);
+      #endif
+      ListNode * del = p;
+      p = p->next;
+      deleteNode(head, del);
+      remain --;
+      count = 1;
+    }
+    else {
+      count ++;
+      p = p->next;
+    }
+  }
 }
 #endif
 
@@ -80,13 +110,16 @@ void eliminate(ListNode * head, int valk)
 // the head). If this occurs, return the second node of the list.
 ListNode * deleteNode(ListNode * head, ListNode * todelete)
 {
+  // list is empty.
   if (head == NULL) {
     return NULL;
   }
+  // nothing to delete.
   if (todelete == NULL) {
     return NULL;
   }
-  ListNode * next = head.next;
+  // initialize the pointers
+  ListNode * next = head->next;
   ListNode * curr = head;
   if (head == todelete) {
     free(head);

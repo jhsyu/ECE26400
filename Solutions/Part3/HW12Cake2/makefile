@@ -2,16 +2,17 @@ WARNING = -Wall -Wshadow --pedantic
 ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
+
 TESTFLAGS = -DTEST_CREATELIST -DTEST_ELIMINATE -DDEBUG -DTEST_DELETENODE
 
 SRCS = main.c hw12.c
 OBJS = $(SRCS:%.c=%.o)
 
 hw12: $(OBJS)
-	$(GCC) $(OBJS) -o hw12
+	$(GCC) $(TESTFLAGS) $(OBJS) -o hw12
 
 .c.o:
-	$(GCC) -c $*.c
+	$(GCC) $(TESTFLAGS) -c $*.c
 
 testmemory: hw12
 	$(VAL) ./hw12  4 5

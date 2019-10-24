@@ -29,7 +29,7 @@ test2: hw12
 
 test3: hw12
 	./hw12 25 7 > output3
-	diff output3 expected/expected2
+	diff output3 expected/expected3
 
 clean:
 	rm -f hw12 *.o output?

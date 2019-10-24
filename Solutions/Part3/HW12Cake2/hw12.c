@@ -86,7 +86,8 @@ void eliminate(ListNode * head, int valk)
       else {
         p = p->next;
       }
-      deleteNode(head, del);
+      printf("%d\n", del->value);
+      head = deleteNode(head, del);
       remain --;
       count = 1;
     }
@@ -101,6 +102,7 @@ void eliminate(ListNode * head, int valk)
       }
     }
   }
+  printf("%d\n", p->value);
 }
 #endif
 

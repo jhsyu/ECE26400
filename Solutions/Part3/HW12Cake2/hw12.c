@@ -103,6 +103,7 @@ void eliminate(ListNode * head, int valk)
     }
   }
   printf("%d\n", p->value);
+  free(p);
 }
 #endif
 
@@ -138,14 +139,12 @@ ListNode * deleteNode(ListNode * head, ListNode * todelete)
     free(head);
     return next;
   }
-  while (next != NULL) {
-    if (next->value == todelete->value) {
-      curr->next = todelete->next;
-      free(todelete);
-    }
+  while (next != NULL && (next->value != todelete -> value)) {
     curr = next;
     next = next->next;
   }
+  curr->next = todelete->next;
+  free(todelete);
   return head;
 }
 #endif

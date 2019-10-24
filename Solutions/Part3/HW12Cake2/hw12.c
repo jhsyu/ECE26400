@@ -80,14 +80,25 @@ void eliminate(ListNode * head, int valk)
       printListNode (todelete);
       #endif
       ListNode * del = p;
-      p = p->next;
+      if (p->next ==NULL) {
+        p = head;
+      }
+      else {
+        p = p->next;
+      }
       deleteNode(head, del);
       remain --;
       count = 1;
     }
     else {
-      count ++;
-      p = p->next;
+      if (p->next ==NULL) {
+        p = head;
+        count ++;
+      }
+      else {
+        count ++;
+        p = p->next;
+      }
     }
   }
 }

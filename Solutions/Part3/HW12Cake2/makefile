@@ -20,15 +20,15 @@ testmemory: hw12
 testall: test1 test2 test3
 
 test1: hw12
-	./hw12 4 5 > output1
+	./hw12 6 3 > output1
 	diff output1 expected/expected1
 
 test2: hw12
-	./hw12 7 3 > output2
+	./hw12 6 4 > output2
 	diff output2 expected/expected2
 
 test3: hw12
-	./hw12 8 2 > output3
+	./hw12 25 7 > output3
 	diff output3 expected/expected2
 
 clean:

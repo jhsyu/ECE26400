@@ -23,6 +23,14 @@
 //    return true
 bool readList(char * filename, List * arithlist)
 {
+  FILE * fptr = fopen(filename);
+  //fopen fails.
+  if (fptr == NULL) {
+    return false;
+  }
+  //read list from the file.
+  ListNode * curr = arithlist;
+  
   return true;
 }
 #endif
@@ -30,14 +38,14 @@ bool readList(char * filename, List * arithlist)
 #ifdef TEST_DELETELIST
 // If arithlist is NULL, do nothing
 // release the memory of every node in the list
-// release the memory of the list 
+// release the memory of the list
 void deleteList(List * arithlist)
 {
 }
 #endif
 
 #ifdef TEST_ADDNODE
-// Input: 
+// Input:
 // arithlist stores the addresses of head and tail
 // If arithlist is NULL, do nothing
 // word is the word to be added
@@ -60,7 +68,7 @@ void addNode(List * arithlist, char * word)
 // If the list is empty (head and tail are NULL), return false
 // ln is the node to be deleted
 // If ln is not in the list, return false
-// 
+//
 // Output:
 // arithlist stores the addresses of head and tail
 //   after ln is deleted
@@ -72,4 +80,3 @@ bool deleteNode(List * arithlist, ListNode * ln)
   return true;
 }
 #endif
-

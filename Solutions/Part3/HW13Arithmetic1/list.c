@@ -8,6 +8,37 @@
 #include "list.h"
 
 #ifdef TEST_READLIST
+
+void Construct (ListNode * ptr)
+{
+  ListNode * p = malloc(sizeof(ListNode));
+  if (p == NULL) {
+    return;
+  }
+  p -> prev = NULL;
+  p -> next = NULL;
+  return;
+}
+
+ListNode * Insert(ListNode * head)
+{
+  ListNode * p;
+  Construct(p);
+  if (p == NULL) {
+    return head;
+  }
+  p -> next = head;
+  head = p;
+  return head;
+}
+
+bool readC (List * arithlist, FILE * fptr)
+{
+  //known : the list's head and tail
+  //        the file ponter
+
+}
+
 // read line by line from the input file
 // each line shorter than WORDLENGTH (including '\n' and '\0')
 // arithlist should have memory to store head and tail
@@ -21,6 +52,7 @@
 //    fclose
 //    arithlist points to the head and tail of the list
 //    return true
+
 bool readList(char * filename, List * arithlist)
 {
   FILE * fptr = fopen(filename);
@@ -28,9 +60,17 @@ bool readList(char * filename, List * arithlist)
   if (fptr == NULL) {
     return false;
   }
+  if (arithlist == NULL) {
+    return false;
+  }
+
+  ListNode * p;
+  while (fscanf("%s", ); {
+
+  }
   //read list from the file.
-  ListNode * curr = arithlist;
-  
+
+
   return true;
 }
 #endif
@@ -41,6 +81,18 @@ bool readList(char * filename, List * arithlist)
 // release the memory of the list
 void deleteList(List * arithlist)
 {
+  if (arithlist == NULL) {
+    return;
+  }
+  ListNode * p = arithlist -> head;
+  ListNode * q = p -> next;
+  while (q != NULL) {
+    free(p);
+    // the two lines following cannot change order.
+    p = q;
+    q = p -> next;
+  }
+  free(arithlist);
 }
 #endif
 

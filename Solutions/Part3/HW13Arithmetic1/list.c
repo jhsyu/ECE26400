@@ -9,34 +9,15 @@
 
 #ifdef TEST_READLIST
 
-void Construct (ListNode * ptr)
+ListNode * Construct (ListNode * ptr)
 {
   ListNode * p = malloc(sizeof(ListNode));
   if (p == NULL) {
-    return;
+    return ptr;
   }
   p -> prev = NULL;
   p -> next = NULL;
-  return;
-}
-
-ListNode * Insert(ListNode * head)
-{
-  ListNode * p;
-  Construct(p);
-  if (p == NULL) {
-    return head;
-  }
-  p -> next = head;
-  head = p;
-  return head;
-}
-
-bool readC (List * arithlist, FILE * fptr)
-{
-  //known : the list's head and tail
-  //        the file ponter
-
+  return p;
 }
 
 // read line by line from the input file
@@ -63,12 +44,13 @@ bool readList(char * filename, List * arithlist)
   if (arithlist == NULL) {
     return false;
   }
-
-  ListNode * p;
-  while (fscanf("%s", ); {
-
-  }
   //read list from the file.
+  char * word;
+  while (! feof(fptr)) {
+    fscanf(fptr, "%s", word);
+    addNode(arithlist, word);
+  }
+  fclose(fptr);
 
 
   return true;
@@ -92,6 +74,8 @@ void deleteList(List * arithlist)
     p = q;
     q = p -> next;
   }
+  //free the last one.
+  free(p);
   free(arithlist);
 }
 #endif
@@ -110,6 +94,22 @@ void deleteList(List * arithlist)
 // insert the ListNode to the list
 void addNode(List * arithlist, char * word)
 {
+  if (arithlist == NULL) {
+    return;
+  }
+  if (arithlist -> head == NULL) {
+    arithlist -> head = Construct(p);
+    arithlist -> tail = arithlist -> head;
+  }
+  ListNode * p = arithlist -> tail;
+  ListNode * q;
+  Construct(q);
+  p -> next = q;
+  q -> prev = p;
+  q -> next = NULL;
+  arithlist -> tail = q;
+  strcpy(q -> word, word);
+  return;
 }
 #endif
 
@@ -129,6 +129,26 @@ void addNode(List * arithlist, char * word)
 // Be careful about delete the first or the last node
 bool deleteNode(List * arithlist, ListNode * ln)
 {
+  if (arithlist == NULL) {
+    return false;
+  }
+  if ((arithlist -> head == NULL) || (arithlist -> tail == NULL)) {
+    return false;
+  }
+  ListNode * p = arithlist -> head;
+  ListNode * q = p -> next;
+  while (q != ln) {
+    p = q;
+    q = p -> next;
+  }
+  if (q == NULL) {
+    return false;   //listnode is not in arithlist.
+  }
+  // at this case q must be eaqual to ListNode * ln.
+  // p is equal to q -> prev.
+  p -> next = q -> next;
+  q = q -> next;
+  free(q -> prev);
   return true;
 }
 #endif

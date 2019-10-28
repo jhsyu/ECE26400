@@ -48,6 +48,8 @@ bool calculate(List * arithlist)
     {
       return true;
     }
+    int numE = 0;
+    
   // go through the list until there is only node in the list
   // find the next operator
   // If no operator can be found, return false
@@ -65,7 +67,7 @@ bool calculate(List * arithlist)
   // If the input is valud, return true
 
 
-  
+
   // if more than one node left, return false
 
   // if the remaining node is an operator, return false

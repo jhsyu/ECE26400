@@ -153,24 +153,26 @@ bool deleteNode(List * arithlist, ListNode * ln)
     arithlist -> head = q;
     free(p);
   }
-  if (r == ln) {
+  else if (r == ln) {
     (r -> prev) -> next = NULL;
     arithlist -> tail = r -> prev;
     free(r);
   }
   // find the node to be deleted.
-  while (q != ln) {
-    p = q;
-    q = p -> next;
+  else {
+    while (q != ln) {
+      p = q;
+      q = p -> next;
+    }
+    if (q == NULL) {
+      return false;   // listnode is not in arithlist.
+    }
+    // at this case q must be eaqual to ListNode * ln.
+    // p is equal to q -> prev.
+    p -> next = q -> next;
+    (q -> next) -> prev = p;
+    free(q);
   }
-  if (q == NULL) {
-    return false;   // listnode is not in arithlist.
-  }
-  // at this case q must be eaqual to ListNode * ln.
-  // p is equal to q -> prev.
-  p -> next = q -> next;
-  q = q -> next;
-  free(q -> prev);
   return true;
 }
 #endif

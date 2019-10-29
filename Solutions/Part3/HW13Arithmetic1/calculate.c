@@ -52,6 +52,7 @@ bool calculate(List * arithlist)
     int result = 0;
     ListNode * p = arithlist -> head;
     ListNode * q = p -> next;
+    ListNode * o = NULL;
     while (q != NULL) {
       numE ++;
       p = q;
@@ -67,7 +68,7 @@ bool calculate(List * arithlist)
         return false;
       }
       // find a operator.
-      while ((q != NULL) && (isOperator(q -> word) != -1)) {
+      while ((q != NULL) && (isOperator(q -> word) == -1)) {
         // must check if q is null.
         // these two lines cannot change the order.
         p = q;
@@ -81,7 +82,7 @@ bool calculate(List * arithlist)
       // hence, p is the second number, p -> prev is the first number.
       // need conversion from '1' to 1.
       // find the two number before it.
-      ListNode * o = p -> prev;
+      o = p -> prev;
       // o points to the first number.
       if ((p != arithlist -> head) && (o == NULL)) {
         // cannot find two numbers before the operator.
@@ -105,15 +106,11 @@ bool calculate(List * arithlist)
           result = - 114514;
           return false;
         }
-        q -> word[0]= '\0';
         sprintf(q -> word, "%d", result);
         // after calculation, push the result to the linked list
         // and delete the numbers and opertors.
         deleteNode(arithlist, o);
         deleteNode(arithlist, p);
-        o = p;
-        p = q;
-        q = q -> next;
         remain -= 2;
       }
 

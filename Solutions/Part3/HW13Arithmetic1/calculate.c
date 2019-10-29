@@ -48,7 +48,7 @@ bool calculate(List * arithlist)
     {
       return true;
     }
-    int numE = 0;
+    int numE = 1;
     int result = 0;
     ListNode * p = arithlist -> head;
     ListNode * q = p -> next;
@@ -83,37 +83,39 @@ bool calculate(List * arithlist)
       // find the two number before it.
       ListNode * o = p -> prev;
       // o points to the first number.
-      if (o == NULL) {
+      if ((p != arithlist -> head) && (o == NULL)) {
         // cannot find two numbers before the operator.
         return false;
       }
-      int a = (int) strtol(o -> word, NULL, 10);
-      int b = (int) strtol((p -> word), NULL, 10);
-      int rtv = isOperator(q -> word);
-      switch (rtv) {
-        case 0:
-        result = a + b;
-        break;
-        case 1:
-        result = a - b;
-        break;
-        case 2:
-        result = a * b;
-        break;
-        default:
-        result = - 114514;
-        return false;
+      if ((o != NULL) && (p != NULL)) {
+        int a = (int) strtol(o -> word, NULL, 10);
+        int b = (int) strtol((p -> word), NULL, 10);
+        int rtv = isOperator(q -> word);
+        switch (rtv) {
+          case 0:
+          result = a + b;
+          break;
+          case 1:
+          result = a - b;
+          break;
+          case 2:
+          result = a * b;
+          break;
+          default:
+          result = - 114514;
+          return false;
+        }
+        q -> word[0]= '\0';
+        sprintf(q -> word, "%d", result);
+        // after calculation, push the result to the linked list
+        // and delete the numbers and opertors.
+        deleteNode(arithlist, o);
+        deleteNode(arithlist, p);
+        o = p;
+        p = q;
+        q = q -> next;
+        remain -= 2;
       }
-      q -> word[0]= '\0';
-      sprintf(q -> word, "%d", result);
-      // after calculation, push the result to the linked list
-      // and delete the numbers and opertors.
-      deleteNode(arithlist, o);
-      deleteNode(arithlist, p);
-      p = NULL;
-      q = NULL;
-      q = NULL;
-      remain -= 2;
 
     }
 

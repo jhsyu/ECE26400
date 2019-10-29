@@ -37,7 +37,7 @@ ListNode * Construct (ListNode * ptr)
 
 bool readList(char * filename, List * arithlist)
 {
-  FILE * fptr = fopen(filename);
+  FILE * fptr = fopen(filename, "r");
   //fopen fails.
   if (fptr == NULL) {
     return false;
@@ -46,8 +46,8 @@ bool readList(char * filename, List * arithlist)
     return false;
   }
   //read list from the file.
-  char * word;
   while (! feof(fptr)) {
+    char word [WORDLENGTH];
     fscanf(fptr, "%s", word);
     addNode(arithlist, word);
   }
@@ -102,14 +102,14 @@ void addNode(List * arithlist, char * word)
   //head and tail point to the same node added.
   //words is empty.
   if (arithlist -> head == NULL) {
-    arithlist -> head = Construct(p);
+    arithlist -> head = Construct(arithlist -> head);
     arithlist -> tail = arithlist -> head;
   }
   // if arithlist is not empty, add one node to the tail.
   // make tail pointed to the new node.
   ListNode * p = arithlist -> tail;
-  ListNode * q;
-  q = Construct(q);
+  ListNode * q = NULL;
+  Construct(q);
   p -> next = q;
   q -> prev = p;
   q -> next = NULL;
@@ -145,7 +145,7 @@ bool deleteNode(List * arithlist, ListNode * ln)
   ListNode * q = p -> next;
   ListNode * r = arithlist -> tail;
   if (p == ln) {
-    q -> prev == NULL;
+    q -> prev = NULL;
     arithlist -> head = q;
     free(p);
   }
@@ -154,7 +154,7 @@ bool deleteNode(List * arithlist, ListNode * ln)
     arithlist -> tail = r -> prev;
     free(r);
   }
-  // find the node to be deleted. 
+  // find the node to be deleted.
   while (q != ln) {
     p = q;
     q = p -> next;

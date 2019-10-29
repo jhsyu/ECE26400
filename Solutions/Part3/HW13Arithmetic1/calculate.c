@@ -1,4 +1,4 @@
-// ***
+o// ***
 // *** You MUST modify this file
 // ***
 
@@ -14,7 +14,7 @@ const int Operations[] = {'+', '-', '*'};
 // return -1 if the word is not an operator
 // return 0 if the word contains '+'
 // return 1 if the word contains '-'
-// ...
+// return 2 if the word contains '*'
 int isOperator(char * word)
 {
   int ind;
@@ -48,9 +48,82 @@ bool calculate(List * arithlist)
     {
       return true;
     }
+    int numN = 0;
     int numE = 0;
-    
-  // go through the list until there is only node in the list
+    int result = 0;
+    List * stack = {
+      head = NULL;
+      tail = NULL;
+    }
+    ListNode * p = airthlist -> head;
+    ListNode * q = p -> next;
+    while (q != NULL) {
+      numE ++;
+      p = q;
+      q = p -> next;
+    }
+    int remain = numE;
+    // initialize p and q
+    while (remain > 1) {
+      ListNode * p = airthlist -> head;
+      ListNode * q = p -> next;
+      // operator cannot appear in the first place.
+      if (isOperator(p -> word) != -1) {
+        return false;
+      }
+      // find a operator.
+      while ((q != NULL) && (isOperator(q -> word) != -1)) {
+        // must check if q is null.
+        // these two lines cannot change the order.
+        p = q;
+        q = p -> next;
+      }
+      if (q == NULL) {
+        // no operator found.
+        return false;
+      }
+      //there is an operator found: q is an operator.
+      // hence, p is the second number, p -> prev is the first number.
+      // need conversion from '1' to 1.
+      // find the two number before it.
+      ListNode * o = p -> prev;
+      // o points to the first number.
+      if (o == NULL) {
+        // cannot find two numbers before the operator.
+        return false;
+      }
+      int a = (int) strtol(o -> word, NULL, 10);
+      int b = (int) strtol((p -> word), NULL, 10);
+      int rtv = isOperator(q -> word);
+      switch (rtv) {
+        case 0:
+        result = a + b;
+        break;
+        case 1:
+        result = a - b;
+        break;
+        case 2:
+        result = a * b;
+        break;
+        default:
+        result = - 114514;
+        return false;
+      }
+      char * words = itoa(result, words, 10);
+      strcpy(q -> word, words);
+      // after calculation, push the result to the linked list
+      // and delete the numbers and opertors.
+      deleteNode(arithlist, o);
+      deleteNode(arithlist, p);
+      p = NULL;
+      q = NULL;
+      q = NULL;
+      remain -= 2;
+
+    }
+
+
+  // go through the list until there is only one node in the list
   // find the next operator
   // If no operator can be found, return false
   // If an operator is found, find the two previous nodes as operands

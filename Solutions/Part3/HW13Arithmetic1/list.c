@@ -109,7 +109,6 @@ void addNode(List * arithlist, char * word)
   // make tail pointed to the new node.
   ListNode * p = arithlist -> tail;
   ListNode * q;
-
   q = Construct(q);
   p -> next = q;
   q -> prev = p;
@@ -144,12 +143,24 @@ bool deleteNode(List * arithlist, ListNode * ln)
   }
   ListNode * p = arithlist -> head;
   ListNode * q = p -> next;
+  ListNode * r = arithlist -> tail;
+  if (p == ln) {
+    q -> prev == NULL;
+    arithlist -> head = q;
+    free(p);
+  }
+  if (r == ln) {
+    (r -> prev) -> next = NULL;
+    arithlist -> tail = r -> prev;
+    free(r);
+  }
+  // find the node to be deleted. 
   while (q != ln) {
     p = q;
     q = p -> next;
   }
   if (q == NULL) {
-    return false;   //listnode is not in arithlist.
+    return false;   // listnode is not in arithlist.
   }
   // at this case q must be eaqual to ListNode * ln.
   // p is equal to q -> prev.

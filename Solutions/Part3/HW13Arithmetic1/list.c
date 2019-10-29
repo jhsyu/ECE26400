@@ -46,10 +46,11 @@ bool readList(char * filename, List * arithlist)
     return false;
   }
   //read list from the file.
+  char word [WORDLENGTH];
   while (! feof(fptr)) {
-    char word [WORDLENGTH];
-    fscanf(fptr, "%s", word);
-    addNode(arithlist, word);
+    if (fscanf(fptr, "%s", word) == 1) {
+      addNode(arithlist, word);
+    }
   }
   fclose(fptr);
 
@@ -104,17 +105,20 @@ void addNode(List * arithlist, char * word)
   if (arithlist -> head == NULL) {
     arithlist -> head = Construct(arithlist -> head);
     arithlist -> tail = arithlist -> head;
+    ListNode * p = arithlist -> head;
+    strcpy(p -> word, word);
   }
   // if arithlist is not empty, add one node to the tail.
   // make tail pointed to the new node.
-  ListNode * p = arithlist -> tail;
-  ListNode * q = NULL;
-  Construct(q);
-  p -> next = q;
-  q -> prev = p;
-  q -> next = NULL;
-  arithlist -> tail = q;
-  strcpy(q -> word, word);
+  else {
+    ListNode * p = arithlist -> tail;
+    ListNode * q = Construct((arithlist -> tail) -> next);
+    p -> next = q;
+    q -> prev = p;
+    q -> next = NULL;
+    arithlist -> tail = q;
+    strcpy(q -> word, word);
+  }
   return;
 }
 #endif

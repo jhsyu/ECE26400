@@ -1,4 +1,4 @@
-o// ***
+// ***
 // *** You MUST modify this file
 // ***
 
@@ -48,14 +48,9 @@ bool calculate(List * arithlist)
     {
       return true;
     }
-    int numN = 0;
     int numE = 0;
     int result = 0;
-    List * stack = {
-      head = NULL;
-      tail = NULL;
-    }
-    ListNode * p = airthlist -> head;
+    ListNode * p = arithlist -> head;
     ListNode * q = p -> next;
     while (q != NULL) {
       numE ++;
@@ -65,8 +60,8 @@ bool calculate(List * arithlist)
     int remain = numE;
     // initialize p and q
     while (remain > 1) {
-      ListNode * p = airthlist -> head;
-      ListNode * q = p -> next;
+      p = arithlist -> head;
+      q = p -> next;
       // operator cannot appear in the first place.
       if (isOperator(p -> word) != -1) {
         return false;
@@ -109,8 +104,8 @@ bool calculate(List * arithlist)
         result = - 114514;
         return false;
       }
-      char * words = itoa(result, words, 10);
-      strcpy(q -> word, words);
+      q -> word[0]= '\0';
+      sprintf(q -> word, "%d", result);
       // after calculation, push the result to the linked list
       // and delete the numbers and opertors.
       deleteNode(arithlist, o);

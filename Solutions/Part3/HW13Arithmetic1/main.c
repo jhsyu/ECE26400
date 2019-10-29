@@ -19,7 +19,7 @@ void printList(List * arithlist)
   while (ln != NULL)
     {
       p = ln -> next;
-      printf("%s", ln -> word); // no need to add '\n'
+      printf("%s\n", ln -> word); // no need to add '\n'
       ln = p;
     }
   printf("from tail: \n");
@@ -27,7 +27,7 @@ void printList(List * arithlist)
   while (ln != NULL)
     {
       p = ln -> prev;
-      printf("%s", ln -> word);
+      printf("%s\n", ln -> word);
       ln = p;
     }
 }

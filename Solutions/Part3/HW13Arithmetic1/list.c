@@ -17,7 +17,8 @@ ListNode * Construct (ListNode * ptr)
   }
   p -> prev = NULL;
   p -> next = NULL;
-  return p;
+  ptr = p;
+  return ptr;
 }
 
 // read line by line from the input file
@@ -74,7 +75,7 @@ void deleteList(List * arithlist)
     p = q;
     q = p -> next;
   }
-  //free the last one.
+  //free the last one. now p->next should be NULL.
   free(p);
   free(arithlist);
 }
@@ -97,13 +98,19 @@ void addNode(List * arithlist, char * word)
   if (arithlist == NULL) {
     return;
   }
+  //when airthlist is empty, add one node whose prev and next are NULL.
+  //head and tail point to the same node added.
+  //words is empty.
   if (arithlist -> head == NULL) {
     arithlist -> head = Construct(p);
     arithlist -> tail = arithlist -> head;
   }
+  // if arithlist is not empty, add one node to the tail.
+  // make tail pointed to the new node.
   ListNode * p = arithlist -> tail;
   ListNode * q;
-  Construct(q);
+
+  q = Construct(q);
   p -> next = q;
   q -> prev = p;
   q -> next = NULL;

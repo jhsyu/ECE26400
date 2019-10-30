@@ -49,18 +49,24 @@ bool calculate(List * arithlist)
       return true;
     }
     int numE = 1;
+    int numN = 0;
     int result = 0;
     ListNode * p = arithlist -> head;
     ListNode * q = p -> next;
     ListNode * o = NULL;
+    if ((q == NULL) && (isOperator(p -> word) == -1)) {
+      return true;
+    }
     while (q != NULL) {
       numE ++;
+      if (isOperator(p -> word) == -1) {
+        numN ++;
+      }
       p = q;
       q = p -> next;
     }
-    int remain = numE;
     // initialize p and q
-    while (remain > 1) {
+    while (numN != 1) {
       p = arithlist -> head;
       q = p -> next;
       // operator cannot appear in the first place.
@@ -84,9 +90,17 @@ bool calculate(List * arithlist)
       // find the two number before it.
       o = p -> prev;
       // o points to the first number.
-      if ((p != arithlist -> head) && (o == NULL)) {
+      if (p != arithlist -> head) {
         // cannot find two numbers before the operator.
-        return false;
+        if (o == NULL) {
+          return false;
+        }
+        if (isOperator(o -> word) != -1) {
+          return false;
+        }
+        if (isOperator(p -> word) != -1) {
+          return false;
+        }
       }
       if ((o != NULL) && (p != NULL)) {
         int a = (int) strtol(o -> word, NULL, 10);
@@ -106,16 +120,19 @@ bool calculate(List * arithlist)
           result = - 114514;
           return false;
         }
-        sprintf(q -> word, "%d", result);
+        sprintf(q -> word, "%d\n", result);
         // after calculation, push the result to the linked list
         // and delete the numbers and opertors.
         deleteNode(arithlist, o);
         deleteNode(arithlist, p);
-        remain -= 2;
+        numE -= 2;
+        numN --;
       }
 
     }
-
+    if (numE != numN) {
+      return false;
+    }
 
   // go through the list until there is only one node in the list
   // find the next operator

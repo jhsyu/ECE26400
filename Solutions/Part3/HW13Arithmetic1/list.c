@@ -48,7 +48,7 @@ bool readList(char * filename, List * arithlist)
   //read list from the file.
   char word [WORDLENGTH];
   while (! feof(fptr)) {
-    if (fscanf(fptr, "%s", word) == 1) {
+    if (fgets(word, WORDLENGTH, fptr) != NULL) {
       addNode(arithlist, word);
     }
   }

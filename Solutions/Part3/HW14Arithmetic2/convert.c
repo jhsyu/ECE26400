@@ -115,13 +115,51 @@ bool convert(List * arithlist)
           // just add this '+' to operator list.
           addNode(operators, "+");
         }
-        case 1:
+        else if (val == 4) {
+          // impossible.
+          retrun false;
+        }
+        case 1: // it is a '-', similar to '+'.
+        if (operators -> head == NULL) {
+          addNode(operators, temp);
+          break;
+        }
+        // there is something before this '+'
+        int val = isOperator(operators -> tail -> word);
+        if (val < 3) {
+          // if there is a +/-/*, pop it to output
+          // and push the '+' to operator list.
+          deleteNode(operators, operators -> tail);
+          switch (val) {
+            case 0:
+            addNode(output, "+");
+            break;
+            case 1:
+            addNode(output, "-");
+            break;
+            case 2:
+            addNode(output, "*");
+            break;
+            default:
+            retrun false;
+          }
+          addNode(operators, "-");
+        }
+        else if (val == 3) {
+          // there is a left paranthesis before this '+'
+          // just add this '+' to operator list.
+          addNode(operators, "-");
+        }
+        else if (val == 4) {
+          // impossible.
+          retrun false;
+        }
+        case 2: // it is a '*'.
 
-        case 2:
+        case 3: // it is a '(', put it to operator list.
 
-        case 3:
-
-        case 4:
+        case 4: // it is a ')', do not do any thing to it, pop all the
+                // operators untill there is a '('.
 
         default:
         retrun false;

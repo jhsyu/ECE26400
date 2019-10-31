@@ -37,6 +37,7 @@ int isOperator(char * word)
 // ***
 
 #ifdef TEST_CONVERT
+
 bool convert(List * arithlist)
 {
   if (arithlist == NULL)
@@ -83,8 +84,37 @@ bool convert(List * arithlist)
       switch (rtv) {
         case -1: //it is a number, push it to output and then read the next.
         addNode(output, temp);
-        case 0: // it is a '+', push it to operator list.
-        addNode(operators, temp);
+        case 0: // it is a '+'
+        if (operators -> head == NULL) {
+          addNode(operators, temp);
+          break;
+        }
+        // there is something before this '+'
+        int val = isOperator(operators -> tail -> word);
+        if (val < 3) {
+          // if there is a +/-/*, pop it to output
+          // and push the '+' to operator list.
+          deleteNode(operators, operators -> tail);
+          switch (val) {
+            case 0:
+            addNode(output, "+");
+            break;
+            case 1:
+            addNode(output, "-");
+            break;
+            case 2:
+            addNode(output, "*");
+            break;
+            default:
+            retrun false;
+          }
+          addNode(operators, "+");
+        }
+        else if (val == 3) {
+          // there is a left paranthesis before this '+'
+          // just add this '+' to operator list.
+          addNode(operators, "+");
+        }
         case 1:
 
         case 2:
@@ -94,7 +124,7 @@ bool convert(List * arithlist)
         case 4:
 
         default:
-
+        retrun false;
       }
       p = q;
       q = p -> next;

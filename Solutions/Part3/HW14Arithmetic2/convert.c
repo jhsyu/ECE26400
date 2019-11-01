@@ -57,8 +57,8 @@ bool convert(List * arithlist)
     operators -> tail = NULL;
     //number list
     List * output = malloc (sizeof(List));
-    numbers -> head = NULL;
-    numbers -> tail = NULL;
+    output -> head = NULL;
+    output -> tail = NULL;
     //pointers point to arithlist
     ListNode * p = arithlist -> head;
     ListNode * q = p -> next;
@@ -66,7 +66,7 @@ bool convert(List * arithlist)
     // start convert.
     while (q != NULL) {
       // read one word from arithlist.
-      char * temp;
+      char * temp = NULL;
       strcpy(temp, p -> word);
       // read fails:
       if (temp == NULL) {
@@ -74,6 +74,7 @@ bool convert(List * arithlist)
       }
       // determine if it is a number or an operator.
       int rtv = isOperator(temp);
+      int val = -2;
       // according to rtv decide what to do:
       // 1. if it is a number (rtv = -1)
       switch (rtv) {
@@ -90,7 +91,7 @@ bool convert(List * arithlist)
           break;
         }
         // there is something before this '+'
-        int val = isOperator(operators -> tail -> word);
+        val = isOperator(operators -> tail -> word);
         if (val < 3) {
           // if there is a +/-/*, pop it to output
           // and push the '+' to operator list.
@@ -129,7 +130,7 @@ bool convert(List * arithlist)
           break;
         }
         // there is something before this '+'
-        int val = isOperator(operators -> tail -> word);
+        val = isOperator(operators -> tail -> word);
         if (val < 3) {
           // if there is a +/-/*, pop it to output
           // and push the '+' to operator list.
@@ -173,7 +174,7 @@ bool convert(List * arithlist)
           addNode(operators, "*");
           break;
         }
-        int val = isOperator(operators -> tail -> word);
+        val = isOperator(operators -> tail -> word);
         switch (val) {
           case -1:
           return false;
@@ -251,10 +252,12 @@ bool convert(List * arithlist)
       p = q;
       q = p -> next;
     }
-  ListNode * ori = arithlist -> head;
+  List * input = malloc(sizeof(List));
+  input -> head = arithlist -> head,
+  input -> tail = arithlist -> tail,
   arithlist -> head = output -> head;
   arithlist -> head = output -> tail;
-  deleteList(ori);
+  deleteList(input);
   deleteList(operators);
   return true;
 }

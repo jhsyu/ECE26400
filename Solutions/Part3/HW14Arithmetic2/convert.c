@@ -66,7 +66,7 @@ bool convert(List * arithlist)
     // start convert.
     while (q != NULL) {
       // read one word from arithlist.
-      char * temp = NULL;
+      char temp [WORDLENGTH] = {0};
       strcpy(temp, p -> word);
       // read fails:
       if (temp == NULL) {

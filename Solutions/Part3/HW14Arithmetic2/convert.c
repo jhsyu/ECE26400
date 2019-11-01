@@ -80,6 +80,7 @@ bool convert(List * arithlist)
         case -1: //it is a number,
         //push it to output and then read the next.
         addNode(output, temp);
+        break;
 
 
 
@@ -137,12 +138,15 @@ bool convert(List * arithlist)
             case 0:
             addNode(output, "+");
             break;
+
             case 1:
             addNode(output, "-");
             break;
+
             case 2:
             addNode(output, "*");
             break;
+
             default:
             return false;
           }
@@ -236,6 +240,10 @@ bool convert(List * arithlist)
         case 4: // it is a ')', do not do any thing to it,
                 // pop all the operators
                 // untill there is a '('.
+                addNode(output, operators -> tail -> word);
+                deleteNode(operators, operators -> tail);
+                deleteNode(operators, operators -> tail);
+                break;
 
         default:
         return false;

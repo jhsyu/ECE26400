@@ -15,7 +15,7 @@ const int Operations[] = {'+', '-', '*', '(', ')'};
 // return -1 if the word is not an operator
 // return 0 if the word contains '+'
 // return 1 if the word contains '-'
-// retrun 2 if the word contains '*'
+// return 2 if the word contains '*'
 // return 3 if the word contains '('
 // return 4 if the word contains ')'
 int isOperator(char * word)
@@ -62,12 +62,6 @@ bool convert(List * arithlist)
     //pointers point to arithlist
     ListNode * p = arithlist -> head;
     ListNode * q = p -> next;
-    // pointers point to operator list.
-    ListNode * m = operators -> head;
-    ListNode * n = NULL;
-    // pointers point to number list.
-    ListNode * a = output -> head;
-    ListNode * b = NULL;
 
     // start convert.
     while (q != NULL) {
@@ -83,8 +77,12 @@ bool convert(List * arithlist)
       // according to rtv decide what to do:
       // 1. if it is a number (rtv = -1)
       switch (rtv) {
-        case -1: //it is a number, push it to output and then read the next.
+        case -1: //it is a number,
+        //push it to output and then read the next.
         addNode(output, temp);
+
+
+
         case 0: // it is a '+'
         if (operators -> head == NULL) {
           addNode(operators, temp);
@@ -107,7 +105,7 @@ bool convert(List * arithlist)
             addNode(output, "*");
             break;
             default:
-            retrun false;
+            return false;
           }
           addNode(operators, "+");
         }
@@ -118,8 +116,12 @@ bool convert(List * arithlist)
         }
         else if (val == 4) {
           // impossible.
-          retrun false;
+          return false;
         }
+        break;
+
+
+
         case 1: // it is a '-', similar to '+'.
         if (operators -> head == NULL) {
           addNode(operators, temp);
@@ -142,7 +144,7 @@ bool convert(List * arithlist)
             addNode(output, "*");
             break;
             default:
-            retrun false;
+            return false;
           }
           addNode(operators, "-");
         }
@@ -153,17 +155,90 @@ bool convert(List * arithlist)
         }
         else if (val == 4) {
           // impossible.
-          retrun false;
+          return false;
         }
+        break;
+
+
+
         case 2: // it is a '*'.
+        // if there is nothing before:
+        // read * and push it to operator stack, then read
+        // the next char.
+        if (operators -> head == NULL) {
+          addNode(operators, "*");
+          break;
+        }
+        int val = isOperator(operators -> tail -> word);
+        switch (val) {
+          case -1:
+          return false;
+
+          case 0: // the case that there is a '+' before it.
+          // if there is a '+' or '-' before '*
+          // 2. read next number and push it to number stack.
+          // 3. pu '*' to output stack,
+          // 4. then push '+' or '-' to output.
+          addNode(operators, "*");
+          p = q;
+          p = p -> next;
+          addNode(output, p -> word); // read next number
+          // put the * to output stack.
+          addNode(output, "*");
+          // put the +/- to Output stack.
+          addNode(output, operators -> tail -> word);
+          // pop the +/- from the operator stack.
+          deleteNode(operators, operators -> tail);
+          break;
+
+          case 1: // the case that there is a '-' before it
+          // the same like '+'
+          addNode(operators, "*");
+          p = q;
+          p = p -> next;
+          addNode(output, p -> word); // read next number
+          // put the * to output stack.
+          addNode(output, "*");
+          // put the +/- to Output stack.
+          addNode(output, operators -> tail -> word);
+          // pop the +/- from the operator stack.
+          deleteNode(operators, operators -> tail);
+          break;
+
+          case 2: // the case there is a '*' before it.
+          // what to do :
+          // put the previous * to Output,
+          // then read next number, put it into output
+          // put this * to output.
+          addNode(output, "*");
+          p = q;
+          p = p -> next;
+          addNode(output, p -> word);
+          addNode(output, "*");
+          break;
+
+          case 3: // the case that there is a '(' before it.
+          // WHAT TO DO:
+          // push this * to operator stack.
+          addNode(operators, "*");
+          break;
+
+          case 4:
+          return false;
+        }
+        break;
+
 
         case 3: // it is a '(', put it to operator list.
+        addNode(operators, "(");
+        break;
 
-        case 4: // it is a ')', do not do any thing to it, pop all the
-                // operators untill there is a '('.
+        case 4: // it is a ')', do not do any thing to it,
+                // pop all the operators
+                // untill there is a '('.
 
         default:
-        retrun false;
+        return false;
       }
       p = q;
       q = p -> next;

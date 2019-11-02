@@ -55,7 +55,7 @@ bool convert(List * arithlist)
     List * operators = malloc(sizeof(List));
     operators -> head = NULL;
     operators -> tail = NULL;
-    //number list
+    // output stack
     List * output = malloc (sizeof(List));
     output -> head = NULL;
     output -> tail = NULL;
@@ -66,7 +66,7 @@ bool convert(List * arithlist)
     // start convert.
     while (q != NULL) {
       // read one word from arithlist.
-      char temp [WORDLENGTH] = {0};
+      char temp [WORDLENGTH] = {'0'};
       strcpy(temp, p -> word);
       // read fails:
       if (temp == NULL) {
@@ -98,23 +98,23 @@ bool convert(List * arithlist)
           deleteNode(operators, operators -> tail);
           switch (val) {
             case 0:
-            addNode(output, "+");
+            addNode(output, "+\n");
             break;
             case 1:
-            addNode(output, "-");
+            addNode(output, "-\n");
             break;
             case 2:
-            addNode(output, "*");
+            addNode(output, "*\n");
             break;
             default:
             return false;
           }
-          addNode(operators, "+");
+          addNode(operators, "+\n");
         }
         else if (val == 3) {
           // there is a left paranthesis before this '+'
           // just add this '+' to operator list.
-          addNode(operators, "+");
+          addNode(operators, "+\n");
         }
         else if (val == 4) {
           // impossible.
@@ -137,26 +137,26 @@ bool convert(List * arithlist)
           deleteNode(operators, operators -> tail);
           switch (val) {
             case 0:
-            addNode(output, "+");
+            addNode(output, "+\n");
             break;
 
             case 1:
-            addNode(output, "-");
+            addNode(output, "-\n");
             break;
 
             case 2:
-            addNode(output, "*");
+            addNode(output, "*\n");
             break;
 
             default:
             return false;
           }
-          addNode(operators, "-");
+          addNode(operators, "-\n");
         }
         else if (val == 3) {
           // there is a left paranthesis before this '+'
           // just add this '+' to operator list.
-          addNode(operators, "-");
+          addNode(operators, "-\n");
         }
         else if (val == 4) {
           // impossible.
@@ -171,7 +171,7 @@ bool convert(List * arithlist)
         // read * and push it to operator stack, then read
         // the next char.
         if (operators -> head == NULL) {
-          addNode(operators, "*");
+          addNode(operators, "*\n");
           break;
         }
         val = isOperator(operators -> tail -> word);
@@ -184,12 +184,11 @@ bool convert(List * arithlist)
           // 2. read next number and push it to number stack.
           // 3. pu '*' to output stack,
           // 4. then push '+' or '-' to output.
-          addNode(operators, "*");
           p = q;
-          p = p -> next;
+          q = p -> next;
           addNode(output, p -> word); // read next number
           // put the * to output stack.
-          addNode(output, "*");
+          addNode(output, "*\n");
           // put the +/- to Output stack.
           addNode(output, operators -> tail -> word);
           // pop the +/- from the operator stack.
@@ -198,12 +197,11 @@ bool convert(List * arithlist)
 
           case 1: // the case that there is a '-' before it
           // the same like '+'
-          addNode(operators, "*");
           p = q;
-          p = p -> next;
+          q = p -> next;
           addNode(output, p -> word); // read next number
           // put the * to output stack.
-          addNode(output, "*");
+          addNode(output, "*\n");
           // put the +/- to Output stack.
           addNode(output, operators -> tail -> word);
           // pop the +/- from the operator stack.
@@ -215,17 +213,17 @@ bool convert(List * arithlist)
           // put the previous * to Output,
           // then read next number, put it into output
           // put this * to output.
-          addNode(output, "*");
+          addNode(output, "*\n");
           p = q;
-          p = p -> next;
+          q = p -> next;
           addNode(output, p -> word);
-          addNode(output, "*");
+          addNode(output, "*\n");
           break;
 
           case 3: // the case that there is a '(' before it.
           // WHAT TO DO:
           // push this * to operator stack.
-          addNode(operators, "*");
+          addNode(operators, "*\n");
           break;
 
           case 4:
@@ -235,7 +233,7 @@ bool convert(List * arithlist)
 
 
         case 3: // it is a '(', put it to operator list.
-        addNode(operators, "(");
+        addNode(operators, "(\n");
         break;
 
         case 4: // it is a ')', do not do any thing to it,
@@ -249,16 +247,24 @@ bool convert(List * arithlist)
         default:
         return false;
       }
-      p = q;
-      q = p -> next;
+      if (q != NULL) {
+        p = q;
+        q = p -> next;
+      }
     }
-  List * input = malloc(sizeof(List));
-  input -> head = arithlist -> head,
-  input -> tail = arithlist -> tail,
-  arithlist -> head = output -> head;
-  arithlist -> head = output -> tail;
-  deleteList(input);
-  deleteList(operators);
+    // the input is arithlist.
+    // the output is output.
+    // temp storage is operators.
+    // use "input" to keep track on the arithlist.
+    List * input = malloc(sizeof(List));
+    input -> head = arithlist -> head;
+    input -> tail = arithlist -> tail;
+    // REPLACE the content of arithlist with the content of output.
+    arithlist -> head = output -> head;
+    arithlist -> tail = output -> tail;
+    // delete the operators and input.
+    deleteList(input);
+    deleteList(operators);
   return true;
 }
 #endif

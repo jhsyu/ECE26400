@@ -17,6 +17,7 @@ ListNode * Construct (ListNode * ptr)
   }
   p -> prev = NULL;
   p -> next = NULL;
+  strcpy(p -> word, "0\n");
   ptr = p;
   return ptr;
 }
@@ -66,6 +67,10 @@ bool readList(char * filename, List * arithlist)
 void deleteList(List * arithlist)
 {
   if (arithlist == NULL) {
+    return;
+  }
+  if (arithlist -> head == NULL) {
+    free(arithlist);
     return;
   }
   ListNode * p = arithlist -> head;
@@ -149,8 +154,14 @@ bool deleteNode(List * arithlist, ListNode * ln)
   ListNode * q = p -> next;
   ListNode * r = arithlist -> tail;
   if (p == ln) {
-    q -> prev = NULL;
-    arithlist -> head = q;
+    if (q == NULL) { // only one node in arithlist.
+      arithlist -> head = NULL;
+      arithlist -> tail = NULL;
+    }
+    else { // not only one.
+      q -> prev = NULL;
+      arithlist -> head = q;
+    }
     free(p);
   }
   else if (r == ln) {

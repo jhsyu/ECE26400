@@ -41,7 +41,8 @@ int main (int argc, char ** argv)
     }
   List * arithlist;
   // allocate memory for arthlist
-  // the memory has only two pointers, no space to store nodes yet
+  // the memory has only two pointers,
+  // no space to store nodes yet
   arithlist = malloc(sizeof(List));
   arithlist -> head = NULL;
   arithlist -> tail = NULL;

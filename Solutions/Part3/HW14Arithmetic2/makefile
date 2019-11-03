@@ -3,7 +3,7 @@ ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
 
-TESTFLAGS = -DTEST_READLIST -DTEST_DELETELIST -DTEST_ADDNODE -DTEST_DELETENODE -DTEST_CONVERT
+TESTFLAGS = -DTEST_READLIST -DTEST_DELETELIST -DTEST_ADDNODE -DTEST_DELETENODE -DTEST_CONVERT -DDEBUG
 
 SRCS = main.c list.c convert.c
 OBJS = $(SRCS:%.c=%.o)

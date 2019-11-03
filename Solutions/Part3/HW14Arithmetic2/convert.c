@@ -214,6 +214,10 @@ bool convert(List * arithlist)
         p = p -> next;
       }
     }
+    while (operators -> tail != NULL) {
+      addNode(output, operators -> tail -> word);
+      deleteNode(operators, operators -> tail);
+    }
     // the input is arithlist.
     // the output is output.
     // temp storage is operators.
@@ -225,9 +229,13 @@ bool convert(List * arithlist)
     // with the content of output.
     arithlist -> head = output -> head;
     arithlist -> tail = output -> tail;
+    output -> head = NULL;
+    output -> tail = NULL;
     // delete the operators and input.
     deleteList(input);
     deleteList(operators);
+    deleteList(output);
+    // deleteList(output);
   return true;
 }
 #endif

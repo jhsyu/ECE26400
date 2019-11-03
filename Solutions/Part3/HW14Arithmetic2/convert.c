@@ -134,12 +134,15 @@ bool convert(List * arithlist)
           // and push the '+' to operator list.
           addNode(output, operators -> tail -> word);
           deleteNode(operators, operators -> tail);
+          // if there is something before *,
+          // put it to output after put * into output.
           if (val == 2) {
             addNode(output, operators -> tail -> word);
             deleteNode(operators, operators -> tail);
           }
           addNode(operators, "+\n");
           }
+          // if the operator before is a '('
         else if (val == 3) {
           // there is a left paranthesis before this '+'
           // just add this '+' to operator list.
@@ -214,6 +217,7 @@ bool convert(List * arithlist)
         p = p -> next;
       }
     }
+    // put all the operators in operators stack into output.
     while (operators -> tail != NULL) {
       addNode(output, operators -> tail -> word);
       deleteNode(operators, operators -> tail);
@@ -227,15 +231,15 @@ bool convert(List * arithlist)
     input -> tail = arithlist -> tail;
     // REPLACE the content of arithlist
     // with the content of output.
+    // and delete output.
     arithlist -> head = output -> head;
     arithlist -> tail = output -> tail;
     output -> head = NULL;
     output -> tail = NULL;
-    // delete the operators and input.
+    // delete all local lists in heap memory.
     deleteList(input);
     deleteList(operators);
     deleteList(output);
-    // deleteList(output);
   return true;
 }
 #endif

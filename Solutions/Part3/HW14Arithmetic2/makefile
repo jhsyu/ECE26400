@@ -15,7 +15,7 @@ hw14: $(OBJS)
 	$(GCC) $(TESTFLAGS) -c $*.c
 
 testmemory: hw14
-	$(VAL) ./hw14  ./inputs/test5
+	$(VAL) ./hw14  ./inputs/test6
 
 testall: test1 test2 test3 test4 test5 test6 test7
 test1: hw14

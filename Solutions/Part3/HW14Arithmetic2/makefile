@@ -17,8 +17,7 @@ hw14: $(OBJS)
 testmemory: hw14
 	$(VAL) ./hw14  ./inputs/test5
 
-testall: test1 test2 test3 test4 test5
-
+testall: test1 test2 test3 test4 test5 test6 test7
 test1: hw14
 	./hw14 ./inputs/test1 > output1
 	diff output1 expected/expected1
@@ -38,6 +37,12 @@ test4: hw14
 test5: hw14
 	./hw14 ./inputs/test5 > output5
 	diff output5 expected/expected5
+test6: hw14
+	./hw14 ./inputs/test6 > output6
+	diff output6 expected/expected6
+test7: hw14
+	./hw14 ./inputs/test7 > output7
+	diff output6 expected/expected7
 
 clean:
 	rm -f hw14 *.o output?

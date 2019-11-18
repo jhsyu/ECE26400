@@ -220,6 +220,34 @@ void deleteList(List * list)
   free(list);
 }
 
+void printList(List * list)
+{
+  if (list == NULL)
+    {
+      return;
+    }
+  ListNode * ln = list -> head;
+  ListNode * p;
+  #ifdef DEBUG
+  printf("from head: \n");
+  #endif
+  while (ln != NULL)
+    {
+      p = ln -> next;
+      printf("%d\n", ln -> data);
+      ln = p;
+    }
+  #ifdef DEBUG
+  printf("from tail: \n");
+  ln = list -> tail;
+  while (ln != NULL)
+    {
+      p = ln -> prev;
+      printf("%d\n", ln -> data);
+      ln = p;
+    }
+  #endif
+}
 
 
 bool treesearch(TreeNode * tr, int v, List * path)
@@ -227,21 +255,27 @@ bool treesearch(TreeNode * tr, int v, List * path)
   if (tr == NULL) {
     return false;
   }
-  if (tr -> value) {
+  if (tr -> value == v) {
+    addNode(path, v);
     return true;
   }
   if (treesearch(tr -> left, v, path)) {
-    addNode(path, v);
+    addNode(path, tr -> value);
     return true;
   }
   if (treesearch(tr -> right, v, path)) {
-    addNode(path, v);
+    addNode(path, tr -> value);
     return true;
   }
   return false;
 }
 void printPath(Tree * tr, int val)
 {
-
+  List * path = malloc(sizeof(List));
+  path -> head = NULL;
+  path -> tail = NULL;
+  treesearch(tr -> root, val, path);
+  printList(path);
+  deleteList(path);
 }
 #endif

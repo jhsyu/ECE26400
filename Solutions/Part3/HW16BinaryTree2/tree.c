@@ -45,8 +45,65 @@ void freeTree(Tree * tr)
 // *** You MUST modify the follow function
 // ***
 #ifdef TEST_BUILDTREE
+TreeNode * construct (int v)
+{
+  TreeNode * r = malloc(sizeof(TreeNode));
+  r -> left = NULL;
+  r -> right = NULL;
+  r -> value = v;
+  return r;
+}
+int search (int v, int * inArray, int strt, int end)
+{
+  int * p = &inArray[strt];
+  for (size_t i = strt; i <= end; i++) {
+    if (*p == v) {
+      return i;
+    }
+    p ++;
+  }
+  return -1;
+}
+
+TreeNode * buildHelp(int * inArray, int * postArray, int instrt, int inend, int * post)
+{
+  // terminating condition.
+  if (instrt > inend) {
+    return NULL;
+  }
+  int v = postArray[*post];
+  TreeNode * trnode = construct(v);
+  (*post) --;
+  if (instrt == inend) {
+    return trnode;
+    // this node has no offspring.
+  }
+  // now this node has offsprings.
+  int inind = search(v, inArray, instrt, inend);
+  #ifdef DEBUG
+  printf("IN: \n");
+  for (size_t i = instrt; i <= inend; i++) {
+    printf("%6d",inArray[i]);
+  }
+  printf("\nV = %d\n",postArray[*post]);
+  #endif
+  if (inind == -1) {
+    return NULL;
+    printf("SEARCH ERROR!\n");
+    // error.
+  }
+
+  trnode -> right = buildHelp(inArray, postArray, inind + 1, inend, post);
+  trnode -> left = buildHelp(inArray, postArray, instrt, inind - 1, post);
+  return trnode;
+}
+
 Tree * buildTree(int * inArray, int * postArray, int size)
 {
+  Tree * tr = malloc(sizeof(Tree));
+  int post = size - 1;
+  tr -> root = buildHelp(inArray, postArray, 0, size - 1, &post);
+  return tr;
 }
 #endif
 

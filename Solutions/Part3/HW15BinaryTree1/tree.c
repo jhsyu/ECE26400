@@ -60,7 +60,7 @@ void preOrder(Tree * tr, char * filename)
 #ifdef TEST_BUILDTREE
 // Consider the algorithm posted on
 // https://www.geeksforgeeks.org/construct-a-binary-tree-from-postorder-and-inorder/
-Tree * construct (int v)
+TreeNode * construct (int v)
 {
   TreeNode * r = malloc(sizeof(TreeNode));
   r -> left = NULL;
@@ -70,7 +70,7 @@ Tree * construct (int v)
 }
 int search (int v, int * inArray, int strt, int end)
 {
-  int * p = inArray;
+  int * p = &inArray[strt];
   for (size_t i = strt; i <= end; i++) {
     if (*p == v) {
       return i;
@@ -86,22 +86,30 @@ TreeNode * buildHelp(int * inArray, int * postArray, int instrt, int inend, int 
   if (instrt > inend) {
     return NULL;
   }
-  int v = *post;
+  int v = postArray[*post];
   TreeNode * trnode = construct(v);
-  *post --;
+  (*post) --;
   if (instrt == inend) {
     return trnode;
     // this node has no offspring.
   }
   // now this node has offsprings.
-  inind = search(v, inArray, instrt, inend);
+  int inind = search(v, inArray, instrt, inend);
+  #ifdef DEBUG
+  printf("IN: \n");
+  for (size_t i = instrt; i <= inend; i++) {
+    printf("%6d",inArray[i]);
+  }
+  printf("\nV = %d\n",postArray[*post]);
+  #endif
   if (inind == -1) {
     return NULL;
+    printf("SEARCH ERROR!\n");
     // error.
   }
 
-  trnode -> right = buildHelp(tr, inArray, postArray, instrt, inind - 1, post);
-  trnode -> left = buildHelp(tr, inArray, postArray, inind + 1, inend, post);
+  trnode -> right = buildHelp(inArray, postArray, inind + 1, inend, post);
+  trnode -> left = buildHelp(inArray, postArray, instrt, inind - 1, post);
   return trnode;
 }
 
@@ -109,7 +117,7 @@ Tree * buildTree(int * inArray, int * postArray, int size)
 {
   Tree * tr = malloc(sizeof(Tree));
   int post = size - 1;
-  tr -> root = buildHelp(tr, inArray, postArray, 0, size - 1, &post);
+  tr -> root = buildHelp(inArray, postArray, 0, size - 1, &post);
   return tr;
 }
 #endif

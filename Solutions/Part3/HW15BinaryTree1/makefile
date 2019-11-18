@@ -3,7 +3,7 @@ ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
 
-TESTFLAGS = -DTEST_BUILDTREE -DDEBUG
+TESTFLAGS = -DTEST_BUILDTREE #-DDEBUG
 
 SRCS = main.c tree.c
 OBJS = $(SRCS:%.c=%.o)
@@ -15,9 +15,8 @@ hw15: $(OBJS)
 	$(GCC) $(TESTFLAGS) -c $*.c
 
 testmemory: hw15
-	./hw15 ./inputs/test5in ./inputs/test5post ./outputs/output5
-	diff ./outputs/output5 ./expected/expected5
-
+	$(VAL) ./hw15 ./inputs/test5in ./inputs/test5post ./outputs/output5
+	
 testall: test1 test2 test3 test4 test5 test6
 
 test1: hw15
@@ -45,4 +44,4 @@ test6: hw15
 	diff ./outputs/output6 ./expected/expected6
 
 clean:
-	rm -f hw15 *.o output*
+	rm -f hw15 *.o outputs/output*

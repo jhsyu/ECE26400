@@ -3,7 +3,7 @@ ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
 
-TESTFLAGS = -DTEST_BUILDTREE
+TESTFLAGS = -DTEST_BUILDTREE -DDEBUG
 
 SRCS = main.c tree.c
 OBJS = $(SRCS:%.c=%.o)

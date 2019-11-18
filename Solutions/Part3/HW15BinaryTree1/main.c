@@ -31,12 +31,12 @@ static bool readArray(const char * filename, int * * array, int * size)
   while (ind < numint)
     {
       if (fscanf(fptr, "%d", & arr[ind]) != 1)
-	{
-	  fprintf(stderr, "SOMETHING WRONG\n");
-	  free (arr);
-	  * size = 0;
-	  return false;
-	}
+      	{
+      	  fprintf(stderr, "SOMETHING WRONG\n");
+      	  free (arr);
+      	  * size = 0;
+      	  return false;
+      	}
       ind ++;
     }
   fclose (fptr);

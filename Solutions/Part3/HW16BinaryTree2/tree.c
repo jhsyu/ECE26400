@@ -8,6 +8,13 @@
 #include <stdbool.h>
 #include "tree.h"
 
+typedef struct listnode
+{
+  int value;
+  struct listnode * next;
+  struct listnode * prev;
+} ListNode;
+
 // DO NOT MODIFY FROM HERE --->>>
 Tree * newTree(void)
 {
@@ -55,6 +62,7 @@ TreeNode * construct (int v)
 }
 int search (int v, int * inArray, int strt, int end)
 {
+  // search the number v in the in-order array.
   int * p = &inArray[strt];
   for (size_t i = strt; i <= end; i++) {
     if (*p == v) {
@@ -71,22 +79,16 @@ TreeNode * buildHelp(int * inArray, int * postArray, int instrt, int inend, int 
   if (instrt > inend) {
     return NULL;
   }
+  // construct the root node.
   int v = postArray[*post];
   TreeNode * trnode = construct(v);
   (*post) --;
+  // if this node has no offspring.
   if (instrt == inend) {
     return trnode;
-    // this node has no offspring.
   }
-  // now this node has offsprings.
+  // now this node must has offsprings.
   int inind = search(v, inArray, instrt, inend);
-  #ifdef DEBUG
-  printf("IN: \n");
-  for (size_t i = instrt; i <= inend; i++) {
-    printf("%6d",inArray[i]);
-  }
-  printf("\nV = %d\n",postArray[*post]);
-  #endif
   if (inind == -1) {
     return NULL;
     printf("SEARCH ERROR!\n");
@@ -108,7 +110,26 @@ Tree * buildTree(int * inArray, int * postArray, int size)
 #endif
 
 #ifdef TEST_PRINTPATH
+TreeNode * treesearch(TreeNode tr, int v, int * count);
+{
+  (*count) ++;
+  if (tr -> value == v) {
+    // node found!
+    return tr;
+  }
+  if (tr -> value > v) {
+    return treesearch(tr -> left, v, count);
+  }
+  return treesearch(tr -> right, v, count);
+}
 void printPath(Tree * tr, int val)
 {
+  int count = 0;
+  treesearch(tr -> root, val, &count);
+  #ifdef DEBUG
+  printf("%d\n", count);
+  #endif
+  int * pathArr = malloc(sizeof(int) * count);
+
 }
 #endif

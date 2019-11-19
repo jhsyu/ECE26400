@@ -1,10 +1,10 @@
 # ***
-# *** DO NOT modify this file 
+# *** DO NOT modify this file
 # ***
 
 WARNING = -Wall -Wshadow --pedantic
 ERROR = -Wvla -Werror
-GCC = gcc -std=c99 -g $(WARNING) $(ERROR) 
+GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 VAL = valgrind --tool=memcheck --log-file=vallog --leak-check=full --verbose
 TESTFALGS = -DTEST_BUILDTREE -DTEST_PRINTPATH 
 
@@ -14,8 +14,8 @@ OBJS = $(SRCS:%.c=%.o)
 hw16: $(OBJS)
 	$(GCC) $(OBJS) -o hw16
 
-.c.o: 
-	$(GCC) $(TESTFALGS) -c $*.c 
+.c.o:
+	$(GCC) $(TESTFALGS) -c $*.c
 
 testall: test1 test2 test3 test4 test5 test6
 
@@ -44,10 +44,7 @@ test6: hw16
 	diff -w output6 expected/expected6
 
 memory: hw16
-	$(VAL) ./hw16 inputs/test6in inputs/test6post 
+	$(VAL) ./hw16 inputs/test6in inputs/test6post
 
 clean: # remove all machine generated files
 	rm -f hw16 *.o output? vallog testgen
-
-
-

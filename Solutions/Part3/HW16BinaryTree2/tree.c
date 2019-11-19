@@ -8,12 +8,7 @@
 #include <stdbool.h>
 #include "tree.h"
 
-typedef struct listnode
-{
-  int value;
-  struct listnode * next;
-  struct listnode * prev;
-} ListNode;
+
 
 // DO NOT MODIFY FROM HERE --->>>
 Tree * newTree(void)
@@ -52,6 +47,7 @@ void freeTree(Tree * tr)
 // *** You MUST modify the follow function
 // ***
 #ifdef TEST_BUILDTREE
+
 TreeNode * construct (int v)
 {
   TreeNode * r = malloc(sizeof(TreeNode));
@@ -73,7 +69,8 @@ int search (int v, int * inArray, int strt, int end)
   return -1;
 }
 
-TreeNode * buildHelp(int * inArray, int * postArray, int instrt, int inend, int * post)
+TreeNode * buildHelp(int * inArray, int * postArray,
+                      int instrt, int inend, int * post)
 {
   // terminating condition.
   if (instrt > inend) {
@@ -110,26 +107,175 @@ Tree * buildTree(int * inArray, int * postArray, int size)
 #endif
 
 #ifdef TEST_PRINTPATH
-TreeNode * treesearch(TreeNode tr, int v, int * count);
+
+typedef struct listnode {
+  struct listnode * next;
+  struct listnode * prev;
+  int data;
+} ListNode;
+typedef struct {
+  ListNode * head;
+  ListNode * tail;
+} List;
+
+ListNode * nodeconstruct(int v)
 {
-  (*count) ++;
+  ListNode * p = malloc(sizeof(ListNode));
+  p -> next = NULL;
+  p -> prev = NULL;
+  p -> data = v;
+  return p;
+}
+
+void addNode(List * list, int v)
+{
+  if (list == NULL) {
+    return;
+  }
+  //when airthlist is empty, add one node whose prev and next are NULL.
+  //head and tail point to the same node added.
+  //words is empty.
+  if (list -> head == NULL) {
+    list -> head = nodeconstruct(v);
+    list -> tail = list -> head;
+  }
+  // if list is not empty, add one node to the tail.
+  // make tail pointed to the new node.
+  else {
+    ListNode * p = list -> tail;
+    ListNode * q = nodeconstruct(v);
+    p -> next = q;
+    q -> prev = p;
+    q -> next = NULL;
+    list -> tail = q;
+  }
+  return;
+}
+
+bool deletenode(List * list, ListNode * todelete)
+{
+  if (list == NULL) {
+    return false;
+  }
+  if ((list -> head == NULL) || (list -> tail == NULL)) {
+    return false;
+  }
+  ListNode * p = list -> head;
+  ListNode * q = p -> next;
+  ListNode * r = list -> tail;
+  // the case that the node is head:
+  if (p == todelete) {
+    if (q == NULL) { // only one node in list.
+      list -> head = NULL;
+      list -> tail = NULL;
+    }
+    else { // not only one.
+      q -> prev = NULL;
+      list -> head = q;
+    }
+    free(p);
+    }
+    else if (r == todelete) {
+      (r -> prev) -> next = NULL;
+      list -> tail = r -> prev;
+      free(r);
+    }
+    // find the node to be deleted.
+    else {
+      while (q != todelete) {
+        p = q;
+        q = p -> next;
+      }
+      if (q == NULL) {
+        return false;   // listnode is not in list.
+      }
+      // at this case q must be eaqual to ListNode * todelete.
+      // p is equal to q -> prev.
+      p -> next = q -> next;
+      (q -> next) -> prev = p;
+      free(q);
+    }
+    return true;
+  }
+
+void deleteList(List * list)
+{
+  if (list == NULL) {
+    return;
+  }
+  if (list -> head == NULL) {
+    free(list);
+    return;
+  }
+  ListNode * p = list -> head;
+  ListNode * q = p -> next;
+  while (q != NULL) {
+    free(p);
+    // the two lines following cannot change order.
+    p = q;
+    q = p -> next;
+  }
+  //free the last one. now p->next should be NULL.
+  free(p);
+  free(list);
+}
+
+void printList(List * list)
+{
+  if (list == NULL)
+    {
+      return;
+    }
+  ListNode * ln = list -> head;
+  ListNode * p;
+  #ifdef DEBUG
+  printf("from head: \n");
+  #endif
+  while (ln != NULL)
+    {
+      p = ln -> next;
+      printf("%d\n", ln -> data);
+      ln = p;
+    }
+  #ifdef DEBUG
+  printf("from tail: \n");
+  ln = list -> tail;
+  while (ln != NULL)
+    {
+      p = ln -> prev;
+      printf("%d\n", ln -> data);
+      ln = p;
+    }
+  #endif
+}
+
+
+bool treesearch(TreeNode * tr, int v, List * path)
+{
+  if (tr == NULL) {
+    return false;
+  }
   if (tr -> value == v) {
-    // node found!
-    return tr;
+    addNode(path, v);
+    return true;
   }
-  if (tr -> value > v) {
-    return treesearch(tr -> left, v, count);
+  if (treesearch(tr -> left, v, path)) {
+    addNode(path, tr -> value);
+    return true;
   }
-  return treesearch(tr -> right, v, count);
+  if (treesearch(tr -> right, v, path)) {
+    addNode(path, tr -> value);
+    return true;
+  }
+  return false;
 }
 void printPath(Tree * tr, int val)
 {
-  int count = 0;
-  treesearch(tr -> root, val, &count);
-  #ifdef DEBUG
-  printf("%d\n", count);
-  #endif
-  int * pathArr = malloc(sizeof(int) * count);
-
+  List * path = malloc(sizeof(List));
+  path -> head = NULL;
+  path -> tail = NULL;
+  treesearch(tr -> root, val, path);
+  printList(path);
+  deleteList(path);
 }
 #endif

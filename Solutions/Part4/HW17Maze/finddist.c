@@ -5,7 +5,6 @@
 int canMove(Maze * mzptr, int row, int col, int dir)
 {
   /* (row, col) is the current location */
-  int cur = (mzptr->cells)[row][col];
   switch (dir)
     {
     case NORTH:
@@ -21,10 +20,21 @@ int canMove(Maze * mzptr, int row, int col, int dir)
       col ++;
       break;
     }
-  int dest = (mzptr->cells)[row][col];
-  if ((dest != -1))
-    { return dest; } /* corridor or exit, can move to */
-  return -1; /* cannot move to */
+    // invalid index: go out of the maze.
+    if (row < 0) {
+      return -1;
+    }
+    if (row > mzptr -> numRow) {
+      return -1;
+    }
+    if (col > maptr -> numCol) {
+      return -1;
+    }
+    if (col < 0) {
+      return -1;
+    }
+  // valid index, in the range of the maze.
+  return (mzptr->cells)[row][col];
 }
 void move(Maze * mzptr, int row, int col, int distance)
 {

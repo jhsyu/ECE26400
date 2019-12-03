@@ -116,3 +116,21 @@ void Maze_destruct(Maze * mzptr)
   free (mzptr -> cells);
   free(mzptr);
 }
+
+void Maze_print(Maze * mzptr, char * filename)
+{
+  FILE * fptr = fopen(filename);
+  if (fptr == NULL) {
+    fprintf(stderr, "Open output file error!\n");
+    return;
+  }
+  int row;
+  int col;
+  for (row = 0; row < (mzptr -> numRow); row ++){
+    for (col = 0; col < (mzptr -> numCol); col ++){
+      fprintf(fptr, "%ld", mzptr -> cells[row][col]);
+    }
+    fprintf(fptr, "\n");
+  }
+
+}
